@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import Model.Message;
 import Model.User;
 
 
@@ -148,10 +149,9 @@ public class DatabaseManager {
 	
 	//Renvoie -1 si erreur, 1 sinon
 	//DATE A COMPLETER, CHANGER LE TYPE, ETC
-	public static int ArchivageMessage(User u1, User u2, String cont) {
+	public static int ArchivageMessage(Message message) {
 		int result = -1 ;
-		Timestamp Date = new Timestamp(System.currentTimeMillis()) ;
-		String query = "INSERT INTO message VALUES ('" + u1.GetPseudo() + "', '" + u2.GetPseudo() + "', '"+ Date + "', '" + cont + "')" ;
+		String query = "INSERT INTO message VALUES ('" + message.getEmetteur() + "', '" + message.getReceveur() + "', '"+ message.getDate() + "', '" + message.getContenu() + "')" ;
 		try {
 			statement = con.createStatement() ;
 			statement.executeUpdate(query) ;
@@ -209,10 +209,6 @@ public class DatabaseManager {
 	
 	public static void main (String args[]) {
 		create() ;
-		Setup() ;
-		User u1 = new User("Shivaree", "Inox", true) ;
-		User u2 = new User("Nathan", "Poppy", false) ;
-		ArchivageMessage(u1, u2, "Bonjour Nathan, enchantée.") ;
 		}
 	
 }
