@@ -2,17 +2,17 @@ package Model;
 
 public class User {
 
-	private String id ;
+	private String pseudo ;
 	private String mdp ;
 	private boolean etat ;
 	
-	public User(String id, String mdp, boolean etat) {
-		this.id=id ;
+	public User(String pseudo, String mdp, boolean etat) {
+		this.pseudo=pseudo ;
 		this.mdp = mdp ;
 		this.etat=etat ;
 	}
 	
-	public String GetID() {
-		return id ;
+	public String GetPseudo() {
+		return pseudo ;
 	}
 }

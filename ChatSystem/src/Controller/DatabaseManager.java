@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import Model.User;
 
@@ -14,18 +17,21 @@ public class DatabaseManager {
 	static Connection con = null ;
 	static Statement statement ;
 	static ResultSet rs ;
+	static int new_id ;
 	
 	
-	public void Setup() {
-		String req = "CREATE TABLE login" + 
-					"(id STRING not NULL, " +
-					"mdp STRING not NULL) " ;
+	public static void Setup() {
+		
+		String req = "CREATE TABLE IF NOT EXISTS login " + 
+					"(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+					" pseudo VARCHAR(255), " +
+					" mdp VARCHAR(255))";
 		try {
 			statement = con.createStatement() ;
 			statement.executeUpdate(req) ;
 			statement.close();
-			String query = "CREATE TABLE message" +
-							"(user1 USER, user2 USER, date INT, contenu STRING not NULL)" ;
+			String query = "CREATE TABLE IF NOT EXISTS message" +
+							"(user1 VARCHAR(255), user2 VARCHAR(255), date TIMESTAMP, contenu VARCHAR(255), PRIMARY KEY ( user1, user2, date ))" ;
 			statement=con.createStatement() ;
 			statement.executeUpdate(query) ;
 			statement.close();
@@ -37,20 +43,20 @@ public class DatabaseManager {
 	}
 	
 	
-	public void create() {
+	public static void create() {
 		try {
-			Class.forName("A COMPLETER SERVEUR INSA");
+			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	try {
 		if (con==null) {
-			con = DriverManager.getConnection("A COMPLETER") ;
+			con = DriverManager.getConnection("jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_001","tp_java4ir_001","vaX3ahxu") ;
 		}
 		else {
 			con.close();
-			con = DriverManager.getConnection("A COMPLETER") ;
+			con = DriverManager.getConnection("jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_001\",\"tp_java4ir_001\",\"vaX3ahxu") ;
 		}
 		Statement statement = con.createStatement() ;
 		statement.setQueryTimeout(5);
@@ -89,18 +95,20 @@ public class DatabaseManager {
 		int result = -1 ;
 		try {
 			statement= con.createStatement() ;
-			String req = "SELECT id FROM login WHERE id= '" + pseudo + "'" ;
-			rs = statement.executeQuery(req) ;
-			
+			String req = "SELECT mdp FROM login WHERE pseudo= '" + pseudo + "'" ;
+			ResultSet rs = statement.executeQuery(req) ;
 			if (rs.next()) {
 				if (motdepasse.equals(rs.getString("mdp"))) {
 					result=1 ;
+					System.out.println("Mot de passe correct");
 					//Peut être accès à son profil, via user manager
 				}
 				else {
 					System.out.println ("Mauvais mot de passe") ;
 					result=0 ;
 				}
+			} else {
+				System.out.println("Pseudo inconnu.") ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -111,11 +119,11 @@ public class DatabaseManager {
 	
 	
 	//Renvoie -1 si erreur, 0 si User existe déjà, 1 si c'est bon
-	public int NewUser (String pseudo, String motdepasse) {
+	public static int NewUser (String pseudo, String motdepasse) {
 		//Ajout d'un nouveau User
 		int result =-1 ;
 		try {
-			String req = "SELECT id FROM login WHERE id= '" + pseudo + "'" ;
+			String req = "SELECT pseudo FROM login WHERE pseudo= '" + pseudo + "'" ;
 			statement=con.createStatement() ;
 			rs = statement.executeQuery(req) ;
 			if (rs.next()) {
@@ -124,7 +132,7 @@ public class DatabaseManager {
 				statement.close();
 			}
 			else {
-			String query = "INSERT INTO login VALUES ('" + pseudo + "', '" + motdepasse + "')" ;
+			String query = "INSERT INTO login (pseudo, mdp) VALUES ('" + pseudo + "', '" + motdepasse + "')" ;
 			statement = con.createStatement() ;
 			statement.executeUpdate(query) ;
 			System.out.println("Bienvenue au nouvel utilisateur !") ;
@@ -140,15 +148,16 @@ public class DatabaseManager {
 	
 	//Renvoie -1 si erreur, 1 sinon
 	//DATE A COMPLETER, CHANGER LE TYPE, ETC
-	public int ArchivageMessage(User u1, User u2, String cont) {
+	public static int ArchivageMessage(User u1, User u2, String cont) {
 		int result = -1 ;
-		int date = 0 ;
-		String query = "INSERT INTO message VALUES ('" + u1.GetID() + "', '" + u2.GetID() + "', '"+ String.valueOf(date) + "', '" + cont + "')" ;
+		Timestamp Date = new Timestamp(System.currentTimeMillis()) ;
+		String query = "INSERT INTO message VALUES ('" + u1.GetPseudo() + "', '" + u2.GetPseudo() + "', '"+ Date + "', '" + cont + "')" ;
 		try {
 			statement = con.createStatement() ;
 			statement.executeUpdate(query) ;
 			result = 1 ;
 			statement.close() ;
+			System.out.println("Message Archivé") ;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,6 +165,54 @@ public class DatabaseManager {
 		return result ;
 	}
 	
+	//1 si on change le pseudo, 0 sinon
+	public static int ChangerPseudo (String AncienPseudo, String mdp, String NewPseudo) {
+		if (verifyLogin(AncienPseudo, mdp)==1) {
+			String query = "UPDATE login SET pseudo = '"+NewPseudo+"' WHERE pseudo = '" + AncienPseudo +"'" ;
+			try {
+				statement = con.createStatement() ;
+				statement.executeUpdate(query) ;
+				statement.close() ;
+				System.out.println("Pseudo modifié avec succès.") ;
+				return 1 ;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return 0 ;
+			}
+		} else {
+			System.out.println("Impossible de changer le pseudo.") ;
+			return 0 ;
+		}
+	}
 	
+	
+	public static int ChangerMdp (String Pseudo, String AncienMdp, String NewMdp) {
+		if (verifyLogin(Pseudo, AncienMdp)==1) {
+			String query = "UPDATE login SET mdp = '"+NewMdp+"' WHERE pseudo = '" + Pseudo +"'" ;
+			try {
+				statement = con.createStatement() ;
+				statement.executeUpdate(query) ;
+				statement.close() ;
+				System.out.println("Mot de passe modifié avec succès.") ;
+				return 1 ;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return 0 ;
+			}
+		} else {
+			System.out.println("Impossible de changer le mot de passe.") ;
+			return 0 ;
+		}
+	}
+	
+	public static void main (String args[]) {
+		create() ;
+		Setup() ;
+		User u1 = new User("Shivaree", "Inox", true) ;
+		User u2 = new User("Nathan", "Poppy", false) ;
+		ArchivageMessage(u1, u2, "Bonjour Nathan, enchantée.") ;
+		}
 	
 }
