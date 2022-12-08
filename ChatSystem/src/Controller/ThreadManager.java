@@ -1,5 +1,30 @@
 package Controller;
 
-public class ThreadManager {
+import Model.User;
 
+public abstract class ThreadManager {
+
+	private static ClientUDP client ;
+	
+	public static void newConnexion(User u) {
+		new Thread(new ServeurUDP(u)).start() ;
+		client = new ClientUDP(u) ;
+		client.sendUser();
+		client.close();
+	}
+	
+	public static void changePseudo(User u) {
+		client = new ClientUDP(u) ;
+		client.sendUser();
+		client.close();
+	}
+
+	public static void deconnexion() {
+		client = new ClientUDP(new User("deconnexion")) ;
+		client.sendUser();
+		client.close();
+	}
+	
+	
+	
 }

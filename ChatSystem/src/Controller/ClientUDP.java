@@ -20,7 +20,7 @@ public class ClientUDP {
     	try {
     		this.u = u ;
 			socket = new DatagramSocket() ;
-			address = InetAddress.getByName("localhost") ;
+			address = InetAddress.getByName("10.1.255.255") ;
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,15 +34,15 @@ public class ClientUDP {
     	try {
     		String pseudo = u.GetPseudo() ;
      		buf = pseudo.getBytes() ;
-        	DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4445) ;
+        	DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4446) ;
 			socket.send(packet);
 			packet = new DatagramPacket(buf, buf.length) ;
 			socket.receive(packet);
+			InetAddress address = packet.getAddress() ;
 			String receive = new String (packet.getData(), 0, packet.getLength()) ;
 			//Pour test
-			System.out.println(receive) ;
 			//
-			Annuaire.getInstance().addAnuaire(new User(receive)) ;
+			Annuaire.getInstance().addAnuaire(address.toString(),new User(receive)) ;
 			//Annuaire.addAnuaire(new User(receive)) ;	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

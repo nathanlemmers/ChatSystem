@@ -1,22 +1,23 @@
 package Model;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Annuaire {
 	
-	public static ArrayList<User> annuaire ;
+	public HashMap<String, User> annuaire ;
 	private static final Annuaire instance = new Annuaire();
 	
 	private Annuaire() {
-		annuaire = new ArrayList<User>() ;
+		annuaire = new HashMap<String,User>() ;
 	}
 	
 	//0 si ok, -1 sinon
-	public int addAnuaire(User u1) {
-		System.out.println(u1);
-		int index = annuaire.indexOf(u1) ;
-		if (index!=-1) {
-		annuaire.add(u1) ;
+	public int addAnuaire(String adressIP, User u1) {
+		User u = annuaire.get(adressIP) ;
+		if (u==null) {
+		annuaire.put(adressIP, u1) ;
 		return 0 ;
 		} else {
 			return -1 ;
@@ -24,10 +25,10 @@ public class Annuaire {
 	}
 	
 	//Renvoie 0 si on a supprimé, -1 si il n'existe pas dans la liste.
-	public static int delAnnuaire(User u1) {
-		int index = annuaire.indexOf(u1) ;
-		if (index!=-1) {
-			annuaire.remove(index) ;
+	public int delAnnuaire(InetAddress address, User u1) {
+		User u = annuaire.get(address) ;
+		if (u!=null) {
+			annuaire.remove(address) ;
 			return 0 ;
 		}
 		else {
@@ -35,7 +36,15 @@ public class Annuaire {
 		}
 	}
 	
-	public ArrayList<User> getAnnuaire() {
+	public void modifyAnnuaire(InetAddress address, User u) {
+		annuaire.replace(address.toString(), u) ;
+	}
+	
+	public User getUser(InetAddress address) {
+		return annuaire.get(address) ;
+	}
+	
+	public HashMap<String, User> getAnnuaire() {
 		return annuaire ;
 	}
 	
@@ -43,4 +52,7 @@ public class Annuaire {
 		return instance;
 	}
 	
+	public void printAnnuaire() {
+		System.out.println(annuaire.toString()) ;
+	}
 }

@@ -2,17 +2,19 @@ package Test;
 
 import Controller.ClientUDP;
 import Controller.ServeurUDP;
+import Controller.ThreadManager;
+import Model.Annuaire;
 import Model.User;
 
 public class UDPTest {
-	
+	//Ceci représente la premère connexion et la récupération de l'adresse IP de tout le monde
 	private static ClientUDP client ;
-	private static User nouveau = new User("Nouveau") ;
-	private static User ancien = new User ("Ancien") ;
+	private static User nouveau = new User("Nouveauuuu") ;
+	private static User ancien = new User("Ancien") ;
 	
 	public static void setup() {
 		new Thread(new ServeurUDP(nouveau)).start() ;
-		client = new ClientUDP(ancien) ;
+		client = new ClientUDP(nouveau) ;
 	}
 	
 	public  static void test() {
@@ -21,8 +23,9 @@ public class UDPTest {
 	}
 	
 	public static void main (String args[]) {
-	setup() ;
-	test() ;
+		ThreadManager.newConnexion(nouveau) ;
+		ThreadManager.changePseudo(ancien);
+		ThreadManager.deconnexion();
 	}
 	
 	

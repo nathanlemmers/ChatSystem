@@ -11,4 +11,8 @@ public class User {
 	public String GetPseudo() {
 		return pseudo ;
 	}
+	
+	public String toString() {
+		return pseudo ;
+	}
 }
