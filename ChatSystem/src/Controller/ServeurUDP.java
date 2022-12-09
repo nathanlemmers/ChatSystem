@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -36,6 +35,7 @@ public class ServeurUDP implements Runnable {
 		running = true ;
 		try {
 			Enumeration<NetworkInterface> ntw = NetworkInterface.getNetworkInterfaces() ;
+			
 			while (ntw.hasMoreElements()) {
 				for (InterfaceAddress intA : ntw.nextElement().getInterfaceAddresses()) 
 					if (intA.getAddress().isSiteLocalAddress()) {
@@ -67,7 +67,7 @@ public class ServeurUDP implements Runnable {
 							System.out.println("fin") ;
 							running = false ;
 						} else {
-							Annuaire.getInstance().delAnnuaire(address, Annuaire.getInstance().getUser(address)) ;
+							Annuaire.getInstance().delAnnuaire(address, Annuaire.getInstance().getUser(address.toString())) ;
 							System.out.println("deconnexion") ;
 						}
 					} else {

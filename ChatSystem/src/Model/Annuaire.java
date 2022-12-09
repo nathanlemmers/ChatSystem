@@ -1,7 +1,6 @@
 package Model;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Annuaire {
@@ -40,8 +39,17 @@ public class Annuaire {
 		annuaire.replace(address.toString(), u) ;
 	}
 	
-	public User getUser(InetAddress address) {
+	public User getUser(String address) {
 		return annuaire.get(address) ;
+	}
+	
+	public String getIP(User u) {
+		for (String ip : annuaire.keySet()) {
+			if (annuaire.get(ip).equals(u)) {
+				return ip ;
+			}
+		}
+		return null ;
 	}
 	
 	public HashMap<String, User> getAnnuaire() {
@@ -55,4 +63,8 @@ public class Annuaire {
 	public void printAnnuaire() {
 		System.out.println(annuaire.toString()) ;
 	}
+	
+	
+	
+	
 }

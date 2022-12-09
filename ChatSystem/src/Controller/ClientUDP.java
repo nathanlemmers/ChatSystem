@@ -20,7 +20,7 @@ public class ClientUDP {
     	try {
     		this.u = u ;
 			socket = new DatagramSocket() ;
-			address = InetAddress.getByName("10.1.255.255") ;
+			address = InetAddress.getByName("255.255.255.255") ;
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

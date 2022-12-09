@@ -5,12 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import Model.Message;
-import Model.User;
 
 
 // A AJOUTER https://www.tutorialspoint.com/jdbc/jdbc-sample-code.htm
@@ -208,7 +204,7 @@ public class DatabaseManager {
 	}
 	
 	public static void main (String args[]) {
-		create() ;
+		Setup() ;
 		}
 	
 }
