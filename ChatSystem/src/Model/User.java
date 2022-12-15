@@ -8,7 +8,7 @@ public class User {
 		this.pseudo=pseudo ;
 	}
 	
-	public String GetPseudo() {
+	public String getPseudo() {
 		return pseudo ;
 	}
 	

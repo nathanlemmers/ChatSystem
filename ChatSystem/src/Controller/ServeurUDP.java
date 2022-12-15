@@ -76,7 +76,7 @@ public class ServeurUDP implements Runnable {
 					}
 				}
 //				Annuaire.addAnuaire(new User(receive)) ;
-				buf = u.GetPseudo().getBytes() ;
+				buf = u.getPseudo().getBytes() ;
 				packet = new DatagramPacket(buf, buf.length, address, port) ;
 				socket.send(packet);
 				

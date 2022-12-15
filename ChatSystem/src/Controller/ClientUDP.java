@@ -32,7 +32,7 @@ public class ClientUDP {
 	
     public void sendUser () {
     	try {
-    		String pseudo = u.GetPseudo() ;
+    		String pseudo = u.getPseudo() ;
      		buf = pseudo.getBytes() ;
         	DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4446) ;
 			socket.send(packet);

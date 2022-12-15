@@ -3,7 +3,6 @@ package View;
 	import java.awt.*;
 	import javax.swing.*;
 	import java.awt.event.*;
-	import java.io.*;
 
 	import Controller.DatabaseManager;
 
@@ -19,7 +18,7 @@ package View;
 	    //constructeur
 	    public InterfaceConnexion() {
 	    
-	        //main window de notre authentification 
+	  
 	    interfacePanel = new JPanel(null);
 	    interfaceFrame = new JFrame("Authentification");
 	    
@@ -34,7 +33,6 @@ package View;
 	    interfaceFrame.setLayout(null);
 	    
 	 
-	    //Authentification = nom de la fenêtre
 	    authen = new JLabel("Authentification");
 	    interfaceFrame.getContentPane().add(authen);
 	    log = new JLabel("Pseudo :");
@@ -93,7 +91,7 @@ package View;
 	            
 	            try {
 	                //Recherche dans la base de données si la correspondance login/mdp est bonne
-	                eq = DataBaseManager.verifyLogin(log,mdp);
+	                eq = DatabaseManager.verifyLogin(log,mdp);
 	                
 	                //Affichage du resultat de verfyLogin pour tester
 	                System.out.println("Résultat de la recherche dans la base de données : " + Integer.toString(eq));
@@ -116,7 +114,7 @@ package View;
 	                     connexionB.setText("CONNECTE !"); 
 	                    } else {
 	                        // cas à traiter ? ou non ? 
-	                        errormess.setText("Identifiant inconnu, création d'un nouvel utilisateur");
+	                        errormess.setText("Identifiant inconnu");
 	                    }
 	                    connectedmess.setText("Connexion réussie, veuillez choisir un pseudo :");
 	                    interfacePanel.add(pseudoField);
