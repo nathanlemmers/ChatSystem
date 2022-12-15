@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import Model.Annuaire;
+import Model.Conversation;
 import Model.User;
 
 public class NetworkManager {
@@ -15,32 +16,40 @@ public class NetworkManager {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private User u ;
+    private User u = new User("me");
     public static int p = 1025 ;
 	
 	public void start() throws IOException {
+		
+		String greeting = null ;
     	while(Connexion.etat==1) {
-    	
-        serverSocket = new ServerSocket(4000);
-        clientSocket = serverSocket.accept();
-        System.out.println("debut start") ;
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        System.out.println("En attente de message") ;
-        String greeting = in.readLine();
-        System.out.println(greeting) ;
-            if ("new".equals(greeting)) {
+    		try {
+    			serverSocket = new ServerSocket(6667);
+    			clientSocket = serverSocket.accept();
+    	        out = new PrintWriter(clientSocket.getOutputStream(), true);
+    	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    	        System.out.println("Serveur ecoute sur port : 6667") ;
+    	        greeting = in.readLine();
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    		 	System.out.println("Message recu : " +greeting) ;
+            if (greeting.equals("new")) {
+            	p = p+1 ;
                 out.println(p);
-                p = p+1 ;
-                new Thread(new ServeurTCP(p, u)).start() ;
                 System.out.println("Thread créé") ;
+                new Thread(new ServeurTCP(p, u)).start() ;
                 //Pour test :
                 Connexion.etat =  0;
             }
             else {
+            	System.out.println("On a pas recu le bon message") ;
                 out.println("erreur");
+                Connexion.etat =0 ;
             }
     	}
+    	System.out.println("On s'arrete") ;
     	stop() ;
     }
 
@@ -61,25 +70,27 @@ public class NetworkManager {
     	ClientTCP Client = new ClientTCP() ; 
     	System.out.println("debut connexion") ;
     	int port = Client.startConnection(u) ;
-    	System.out.println(port) ;
-    	if (port==1) {
-    		Client.sendMessage(msg, port) ;
+    	System.out.println("On trouve comme port de destination : " + port) ;
+    	if (port!=-1) {
+    		String validation = Client.sendMessage(msg, port) ;
+    		if(validation.equals("recu")) {
     		return 1 ;
+    		}
     	} else {
-    		System.out.println("Erreur au send") ;
-    		return 0 ;
+    		System.out.println("Erreur au send") ;;
     	}
+    	return 0 ;
     }
     
     
     public static void main (String args[]) {
     	NetworkManager net = new NetworkManager() ;
-    	User me = new User("me") ;
-    	Annuaire.getInstance().addAnuaire("10.1.5.78", me) ;
+    	User u = new User("me") ;
+    	Annuaire.getInstance().addAnuaire("10.1.5.78", u) ;
     	try {
-    		System.out.println("commençons") ;
+    		
 			net.start() ;
-			net.sendMessage(me, "bonjour") ;
+			Conversation.getInstance().printConversation() ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
