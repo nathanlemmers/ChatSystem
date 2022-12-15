@@ -1,12 +1,33 @@
 package View;
 
+import java.awt.*;
+import java.sql.*;
+import javax.swing.*;
+
+
 import Controller.DatabaseManager;
 import Controller.UserManager;
 
 public class mainInterface {
 	
+	JFrame interfaceFrame;
+	JTextField msg;
+	JLabel coUsr;
+	JPanel panel;
+	JButton send, select, logOut, refresh;
+	JComboBox<String> usrComboBox;
+	String[] ChoixUser;
+	JScrollPane scroll;
+	JTextArea txt;
+
+	String selectedUser = null;
+	
+	
+	
+	public mainInterface() {
    
 	//toutes nos variables pour l'affichage des boutons et des labels
+	
 		interfaceFrame = new JFrame("Chat");
 		msg = new JTextField(10);
 		coUsr = new JLabel("Connected Users : ");
@@ -28,9 +49,10 @@ public class mainInterface {
 		
 		ChoixUser = UserManager.pseudoTab().toArray(new String[UserManager.pseudoTab().size()]);
 		usrComboBox = new JComboBox<String>(ChoixUser);
+		
+		}
+			
+		}
 
-    // on va devoir actualiser les conversations et les users connectés (SCROLL BAR à implémenter
-    //on va créer un panel général puis on ajoute tout au panel et on mets les dimensions de la fenêtre 
-    
-    // + run 
-}
+
+

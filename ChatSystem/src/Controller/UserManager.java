@@ -20,5 +20,12 @@ public class UserManager {
 		return pseudo;
 	}
 	
+	public static ArrayList<String> pseudoTab() {
+		ArrayList<String> pseudoTab = new ArrayList<String>();
+		for (int i = 1; i < UserTab.size(); i++) {
+			pseudoTab.add(UserTab.get(i).getPseudo());
+		}
+		return pseudoTab;
+	}
 	
 }
