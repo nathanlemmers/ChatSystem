@@ -15,7 +15,11 @@ public class Conversation {
 	
 	public int addMessage(User u, String mess) {
 		ArrayList<String> list = conversation.get(u) ;
+		if (list==null) {
+			list = new ArrayList<String>() ;
+		}
 		list.add(mess) ;
+		conversation.remove(u);
 		conversation.put(u, list) ;
 		if (conversation.get(u)==null){
 			System.out.printf("Erreur") ;
@@ -34,6 +38,13 @@ public class Conversation {
 	
 	public static Conversation getInstance() {
 		return instance;
+	}
+	
+	public static void main (String args[]) {
+		String greeting = "Yo" ;
+		User u = new User("Nico") ;
+		Conversation.getInstance().addMessage(u, u.toString()+ " : " + greeting) ;
+		Conversation.getInstance().printConversation();
 	}
 	
 }

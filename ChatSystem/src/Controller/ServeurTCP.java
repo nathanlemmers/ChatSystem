@@ -30,13 +30,15 @@ public class ServeurTCP implements Runnable {
     	String greeting = null ;
     	while(running) {
         try {
+        	System.out.println("On est dans le serveur") ;
 			serverSocket = new ServerSocket(port);
+			System.out.println("Le port d'ecoute est : " + port) ;
 			clientSocket = serverSocket.accept();
+			System.out.println("On passe le accept") ;
 	        out = new PrintWriter(clientSocket.getOutputStream(), true);
 	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	        System.out.println("Serveur en ecoute") ;
 	        greeting = in.readLine();
-	        System.out.println(greeting) ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,7 +50,11 @@ public class ServeurTCP implements Runnable {
             }
             else {
                 out.println("recu");
+                System.out.println(greeting) ;
+                System.out.println(u) ;
                 Conversation.getInstance().addMessage(u, u.toString()+ " : " + greeting) ;
+                stop() ;
+                Conversation.getInstance().printConversation() ;
             }
     	}
     }
