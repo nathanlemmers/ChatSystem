@@ -90,8 +90,10 @@ package View;
 	            int eq = - 1;
 	            
 	            try {
+	            	DatabaseManager DM = new DatabaseManager();
+	            	
 	                //Recherche dans la base de données si la correspondance login/mdp est bonne
-	                eq = DatabaseManager.verifyLogin(log,mdp);
+	                eq = DM.verifyLogin(log,mdp);
 	                
 	                //Affichage du resultat de verfyLogin pour tester
 	                System.out.println("Résultat de la recherche dans la base de données : " + Integer.toString(eq));
@@ -137,7 +139,10 @@ package View;
 	    
 	    pseudoB = new JButton ( new AbstractAction("Verification du pseudo") {
 	        
-	        public void actionPerformed(ActionEvent event) {
+	        
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
 	             // à finir 
 	             // faire la partie de l'interface pour changer le pseudo
 	        }
