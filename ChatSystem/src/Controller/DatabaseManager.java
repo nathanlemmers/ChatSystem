@@ -8,8 +8,6 @@ import java.sql.Statement;
 
 import Model.Message;
 
-
-// A AJOUTER https://www.tutorialspoint.com/jdbc/jdbc-sample-code.htm
 public class DatabaseManager {
 	static Connection con = null ;
 	static Statement statement ;
@@ -66,7 +64,7 @@ public class DatabaseManager {
 		}
 	}
 	
-	public ResultSet execute(String query) {
+	public static ResultSet execute(String query) {
 		ResultSet rs = null ;
 		try {
 		if (query.indexOf("SELECT")==-1) {
@@ -86,6 +84,11 @@ public class DatabaseManager {
 		return rs ;
 		}
 	
+	
+	public static void reset() {
+		execute("DROP TABLE login") ;
+		execute("DROP TABLE message") ;
+	}
 	
 	//Cette fonction renvoie -1 si erreur, 0 si mauvais mot de passe et 1 si on se connecte
 	public static int verifyLogin(String pseudo, String motdepasse) {
@@ -204,7 +207,12 @@ public class DatabaseManager {
 	}
 	
 	public static void main (String args[]) {
+		create() ;
 		Setup() ;
+		reset() ;
+		NewUser("Nicolas", "prolol") ;
+		NewUser("Shivaree", "Inox") ;
+		ChangerMdp("Nicolas", "prolol","prolog") ;
 		}
 	
 }

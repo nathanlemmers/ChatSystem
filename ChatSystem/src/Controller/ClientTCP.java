@@ -23,7 +23,7 @@ public class ClientTCP {
 	    private String ip ;
 
 	    
-	    // -1 si erreur catch,  0 si connexion impossible, 1 sinon. COnnexion faite sur le port 4000 
+	    // -1 si erreur catch,  0 si connexion impossible, 1 sinon. Connexion faite sur le port 6667 
 	    public int startConnection(User u) {
 	        try {
 	        	this.u = u ;

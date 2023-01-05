@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 import Model.Annuaire;
 import Model.Conversation;
@@ -18,30 +20,42 @@ public class NetworkManager {
     private BufferedReader in;
     private User u = new User("me");
     public static int p = 1025 ;
+    public HashMap <InetAddress,String> portConnexion = new HashMap<InetAddress,String>() ;
+    public InetAddress address = null ;
 	
 	public void start() throws IOException {
 		
 		String greeting = null ;
+		serverSocket = new ServerSocket(6667);
     	while(Connexion.etat==1) {
     		try {
-    			serverSocket = new ServerSocket(6667);
     			clientSocket = serverSocket.accept();
     	        out = new PrintWriter(clientSocket.getOutputStream(), true);
     	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     	        System.out.println("Serveur ecoute sur port : 6667") ;
     	        greeting = in.readLine();
+    	        address = clientSocket.getInetAddress() ;
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
     		 	System.out.println("Message recu : " +greeting) ;
             if (greeting.equals("new")) {
-            	p = p+1 ;
-                out.println(p);
-                System.out.println("Thread créé") ;
-                new Thread(new ServeurTCP(p, u)).start() ;
+            	if (portConnexion.containsKey(address)) {
+            		out.println(portConnexion.get(address));
+            	}
+            	else {
+	            	p = (p+1) ;
+	            	if (p>3000) {
+	            		p=1025 ;
+	            	}
+	            	portConnexion.put(address, String.valueOf(p)) ;
+	                out.println(p);
+	                System.out.println("Thread créé") ;
+	                new Thread(new ServeurTCP(p, u)).start() ;
+            	}
+                greeting = null ;
                 //Pour test :
-                Connexion.etat =  0;
             }
             else {
             	System.out.println("On a pas recu le bon message") ;
@@ -82,6 +96,8 @@ public class NetworkManager {
     	return 0 ;
     }
     
+    
+    //Cette fonction est pour un test
     
     public static void main (String args[]) {
     	NetworkManager net = new NetworkManager() ;

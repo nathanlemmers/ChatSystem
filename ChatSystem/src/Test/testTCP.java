@@ -12,9 +12,9 @@ public class testTCP {
 		NetworkManager net = new NetworkManager() ;
     	User me = new User("me") ;
     	Annuaire.getInstance().addAnuaire("127.0.0.1", me) ;
-    	Annuaire.getInstance().printAnnuaire();
+    	//Annuaire.getInstance().printAnnuaire();
     	System.out.println("debut client") ;
-    	if (net.sendMessage(me, "bonjour")==1) {
+    	if (net.sendMessage(me, "Bonjour")==1 & net.sendMessage(me,"Comment vas-tu ?")==1) {
     		System.out.println("Test OK") ;
     	}
     	}
