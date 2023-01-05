@@ -23,7 +23,7 @@ package View;
 	    interfacePanel = new JPanel(null);
 	    interfaceFrame = new JFrame("Authentification");
 	    
-	           //affichage fenêtre
+	           //affichage fenï¿½tre
 	    interfaceFrame.setVisible(true);
 	    interfacePanel.setBackground(Color.blue);
 	    interfacePanel.setOpaque(false); //car sinon par defaut c'est transparent
@@ -34,7 +34,7 @@ package View;
 	    interfaceFrame.setLayout(null);
 	    
 	 
-	    //Authentification = nom de la fenêtre
+	    //Authentification = nom de la fenï¿½tre
 	    authen = new JLabel("Authentification");
 	    interfaceFrame.getContentPane().add(authen);
 	    log = new JLabel("Pseudo :");
@@ -51,7 +51,7 @@ package View;
 	    connexionB = new JButton("Me connecter");
 	    pseudoB = new JButton("Changer mon pseudo");
 	    
-	    //champs de connexion à remplir par l'user
+	    //champs de connexion ï¿½ remplir par l'user
 	    logIn = new JTextField(); 
 	    pwd = new JTextField();
 	    
@@ -79,7 +79,7 @@ package View;
 	        
 	        public void actionPerformed(ActionEvent event) {
 	            
-	            //on récupère ce que l'user tape dans les champs
+	            //on rï¿½cupï¿½re ce que l'user tape dans les champs
 	            String log = logIn.getText(); 
 	            String mdp = String.valueOf(pwF.getPassword()); 
 	            pwF.addActionListener(this);
@@ -92,33 +92,33 @@ package View;
 	            int eq = - 1;
 	            
 	            try {
-	                //Recherche dans la base de données si la correspondance login/mdp est bonne
+	                //Recherche dans la base de donnï¿½es si la correspondance login/mdp est bonne
 	                eq = DataBaseManager.verifyLogin(log,mdp);
 	                
 	                //Affichage du resultat de verfyLogin pour tester
-	                System.out.println("Résultat de la recherche dans la base de données : " + Integer.toString(eq));
+	                System.out.println("Rï¿½sultat de la recherche dans la base de donnï¿½es : " + Integer.toString(eq));
 	            
 	            } catch(ArrayIndexOutOfBoundsException | NumberFormatException e) {
 	                // si erreur inconnue lors de l'execution
 	                errormess.setText("Erreur inconnue lors de la connexion!");
 	            }
 	            //Soit le mot de passe ou l'id est incorrect 
-	            //Soit le compte n'exitse pas dans ce cas, on le crée 
+	            //Soit le compte n'exitse pas dans ce cas, on le crï¿½e 
 	            
 	            if (eq == 0) {
 	                //si verifyLogin renvoie 0 c'est une erreur de correspondance
 	                errormess.setText("Erreur d'authentification, identifiant ou mot de passe incorrect");
 	                connexionB.setText("Connexion failed");
 	            } else {
-	                    //Soit je me connecte soit je crée un nouvel user
+	                    //Soit je me connecte soit je crï¿½e un nouvel user
 	                    if (eq == 1) {
-	                     //connexion autorisée, mdp correct
+	                     //connexion autorisï¿½e, mdp correct
 	                     connexionB.setText("CONNECTE !"); 
 	                    } else {
-	                        // cas à traiter ? ou non ? 
-	                        errormess.setText("Identifiant inconnu, création d'un nouvel utilisateur");
+	                        // cas ï¿½ traiter ? ou non ? 
+	                        errormess.setText("Identifiant inconnu, crï¿½ation d'un nouvel utilisateur");
 	                    }
-	                    connectedmess.setText("Connexion réussie, veuillez choisir un pseudo :");
+	                    connectedmess.setText("Connexion rï¿½ussie, veuillez choisir un pseudo :");
 	                    interfacePanel.add(pseudoField);
 	                    interfacePanel.add(pseudoB);
 	                    connexionB.setEnabled(false);
@@ -127,7 +127,7 @@ package View;
 	                    
 	               }
 	            
-	            //permet de remettre à jour la Frame 
+	            //permet de remettre ï¿½ jour la Frame 
 	            interfaceFrame.revalidate();
 	            interfaceFrame.repaint();
 	        }
@@ -135,12 +135,12 @@ package View;
 	    
 	    //Changer notre pseudo 
 	    
-	    //c'est ici qu'on crée le bouton pour changer le pseudo 
+	    //c'est ici qu'on crï¿½e le bouton pour changer le pseudo 
 	    
 	    pseudoB = new JButton ( new AbstractAction("Verification du pseudo") {
 	        
 	        public void actionPerformed(ActionEvent event) {
-	             // à finir 
+	             // ï¿½ finir 
 	             // faire la partie de l'interface pour changer le pseudo
 	        }
 	        
@@ -156,11 +156,11 @@ package View;
 	    //dimension bouton et placement
 	    connexionB.setBounds(300,500,200,40);
 	    
-	    //dimensions fields à remplir
+	    //dimensions fields ï¿½ remplir
 	    logIn.setBounds(200,300,200,40);
 	    pwd.setBounds(200, 400, 200, 40);
 	    
-	    /* dimensions à définir quand je pourrais tester
+	    /* dimensions ï¿½ dï¿½finir quand je pourrais tester
 	    log.setBounds.setBounds();
 	    pwF.setBounds()
 	    connectedmess.setBounds()
@@ -183,7 +183,7 @@ package View;
 	 
 	    interfaceFrame.getContentPane().add(interfacePanel, BorderLayout.CENTER);
 	    
-	     // dimension fenêtre & affichage 
+	     // dimension fenï¿½tre & affichage 
 	    interfaceFrame.setSize(800,600);
 	    interfaceFrame.pack();
 	    

@@ -208,8 +208,8 @@ public class DatabaseManager {
 	
 	public static void main (String args[]) {
 		create() ;
-		Setup() ;
 		reset() ;
+		Setup() ;
 		NewUser("Nicolas", "prolol") ;
 		NewUser("Shivaree", "Inox") ;
 		ChangerMdp("Nicolas", "prolol","prolog") ;
