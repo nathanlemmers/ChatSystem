@@ -3,7 +3,6 @@ package View;
 	import java.awt.*;
 	import javax.swing.*;
 	import java.awt.event.*;
-	import java.io.*;
 
 	import Controller.DatabaseManager;
 
@@ -19,7 +18,7 @@ package View;
 	    //constructeur
 	    public InterfaceConnexion() {
 	    
-	        //main window de notre authentification 
+	  
 	    interfacePanel = new JPanel(null);
 	    interfaceFrame = new JFrame("Authentification");
 	    
@@ -34,7 +33,7 @@ package View;
 	    interfaceFrame.setLayout(null);
 	    
 	 
-	    //Authentification = nom de la fen�tre
+Authentification = nom de la fen�tre
 	    authen = new JLabel("Authentification");
 	    interfaceFrame.getContentPane().add(authen);
 	    log = new JLabel("Pseudo :");
@@ -92,8 +91,10 @@ package View;
 	            int eq = - 1;
 	            
 	            try {
+	            	DatabaseManager DM = new DatabaseManager();
+	            	
 	                //Recherche dans la base de donn�es si la correspondance login/mdp est bonne
-	                eq = DataBaseManager.verifyLogin(log,mdp);
+	                eq = DM.verifyLogin(log,mdp);
 	                
 	                //Affichage du resultat de verfyLogin pour tester
 	                System.out.println("R�sultat de la recherche dans la base de donn�es : " + Integer.toString(eq));
@@ -116,7 +117,8 @@ package View;
 	                     connexionB.setText("CONNECTE !"); 
 	                    } else {
 	                        // cas � traiter ? ou non ? 
-	                        errormess.setText("Identifiant inconnu, cr�ation d'un nouvel utilisateur");
+	                        errormess.setText("Identifiant inconnu");
+
 	                    }
 	                    connectedmess.setText("Connexion r�ussie, veuillez choisir un pseudo :");
 	                    interfacePanel.add(pseudoField);
@@ -138,8 +140,10 @@ package View;
 	    //c'est ici qu'on cr�e le bouton pour changer le pseudo 
 	    
 	    pseudoB = new JButton ( new AbstractAction("Verification du pseudo") {
-	        
-	        public void actionPerformed(ActionEvent event) {
+	           
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
 	             // � finir 
 	             // faire la partie de l'interface pour changer le pseudo
 	        }
