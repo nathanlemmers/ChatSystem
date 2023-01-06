@@ -90,7 +90,7 @@ public class DatabaseManager {
 		execute("DROP TABLE message") ;
 	}
 	
-	//Cette fonction renvoie -1 si erreur, 0 si mauvais mot de passe et 1 si on se connecte
+	//Cette fonction renvoie -1 si erreur, 0 si mauvais mot de passe et 1 si on se connecte, 2 si mauvais pseudo
 	public static int verifyLogin(String pseudo, String motdepasse) {
 		int result = -1 ;
 		try {
@@ -109,6 +109,7 @@ public class DatabaseManager {
 				}
 			} else {
 				System.out.println("Pseudo inconnu.") ;
+				result = 2 ;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

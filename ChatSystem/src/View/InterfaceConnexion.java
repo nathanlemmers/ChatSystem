@@ -10,8 +10,8 @@ package View;
 	    
 	    JPanel interfacePanel;
 	    JFrame interfaceFrame;
-	    JLabel log; JLabel pw; JLabel authen; JLabel mess; JLabel errormess; JLabel connectedmess;
-	    JButton connexionB; JButton pseudoB;
+	    JLabel log; JLabel pw; JLabel authen; JLabel mess; JLabel errormess;
+	    JButton connexionB; JButton NewConnexion;
 	    JTextField logIn; JTextField pwd; JTextField pseudoField;
 	    JPasswordField pwF;
 	    
@@ -32,8 +32,9 @@ package View;
 	    interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    interfaceFrame.setLayout(null);
 	    
+	   
 	 
-Authentification = nom de la fen�tre
+//Authentification = nom de la fen�tre
 	    authen = new JLabel("Authentification");
 	    interfaceFrame.getContentPane().add(authen);
 	    log = new JLabel("Pseudo :");
@@ -44,27 +45,18 @@ Authentification = nom de la fen�tre
 	    pw.setBounds(200, 360, 200, 40);
 	    pw.setForeground(Color.WHITE);
 	    
-	    errormess.setForeground(Color.WHITE);
-	    
 	    //bouton de connexion
 	    connexionB = new JButton("Me connecter");
-	    pseudoB = new JButton("Changer mon pseudo");
+	    NewConnexion = new JButton("Nouveau compte");
 	    
-	    //champs de connexion � remplir par l'user
+	    //champs de connexion à remplir par l'user
 	    logIn = new JTextField(); 
+	    
+	    //A voir si il est utilisé
 	    pwd = new JTextField();
 	    
 	    
-
-	    //On ajoute au frame
-	    interfaceFrame.add(connexionB);
-	    interfaceFrame.add(authen);
-	    interfaceFrame.add(pw);
-	    interfaceFrame.add(log);
-	    interfaceFrame.add(logIn);
-	    interfaceFrame.add(pwd);
-	    
-	    mess.setForeground(Color.ORANGE);
+	    //mess.setForeground(Color.ORANGE);
 	    
 	    
 	    //lier l'action de s'enregistrer au bouton 
@@ -72,7 +64,16 @@ Authentification = nom de la fen�tre
 	    pwF = new JPasswordField();
 	    errormess = new JLabel();
 	    
-	   
+	    interfacePanel.add(logIn);
+	    interfacePanel.add(log);
+	    interfacePanel.add(pwF);
+	    interfaceFrame.repaint();
+	    interfacePanel.add(pw);
+	    interfacePanel.add(connexionB);
+	    interfacePanel.add(errormess);
+	    interfaceFrame.add(authen);
+	    interfaceFrame.add(pwd);
+	    
 	    connexionB.addActionListener (new ActionListener () {
 	        
 	        
@@ -84,8 +85,8 @@ Authentification = nom de la fen�tre
 	            pwF.addActionListener(this);
 	            
 	            //On initialise les deux messages de connexion et d'erreur
-	            mess.setText("");
-	            connectedmess.setText("");
+	            //mess.setText("");
+	            errormess.setText("");
 	            
 	       
 	            int eq = - 1;
@@ -108,27 +109,30 @@ Authentification = nom de la fen�tre
 	            
 	            if (eq == 0) {
 	                //si verifyLogin renvoie 0 c'est une erreur de correspondance
-	                errormess.setText("Erreur d'authentification, identifiant ou mot de passe incorrect");
+	                errormess.setText("Erreur d'authentification mot de passe incorrect");
 	                connexionB.setText("Connexion failed");
-	            } else {
-	                    //Soit je me connecte soit je cr�e un nouvel user
-	                    if (eq == 1) {
-	                     //connexion autoris�e, mdp correct
-	                     connexionB.setText("CONNECTE !"); 
-	                    } else {
-	                        // cas � traiter ? ou non ? 
-	                        errormess.setText("Identifiant inconnu");
-
-	                    }
-	                    connectedmess.setText("Connexion r�ussie, veuillez choisir un pseudo :");
-	                    interfacePanel.add(pseudoField);
-	                    interfacePanel.add(pseudoB);
-	                    connexionB.setEnabled(false);
-	                    logIn.setEnabled(false);
-	                    pwd.setEnabled(false);
-	                    
-	               }
-	            
+	            }
+	            //Soit je me connecte soit je cr�e un nouvel user
+		        else if (eq == 1) {
+		        	//connexion autoris�e, mdp correct
+		        	connexionB.setText("CONNECTE !");
+		        } 
+		        else if (eq==2) {  
+		        	errormess.setText("Erreur d'authentification identifiant incorrect");
+		            connexionB.setText("Connexion failed");
+		        }		                   
+		        else if (eq==-1) {
+		        	errormess.setText("Erreur serveur");
+		            connexionB.setText("Connexion failed");
+		        }
+	            /*connectedmess.setText("Connexion r�ussie, veuillez choisir un pseudo :");
+		            interfacePanel.add(pseudoField);
+               		interfacePanel.add(NewConnexion);*/
+	            connexionB.setEnabled(false);
+	            logIn.setEnabled(false);
+	            pwd.setEnabled(false);
+	            	
+		            
 	            //permet de remettre � jour la Frame 
 	            interfaceFrame.revalidate();
 	            interfaceFrame.repaint();
@@ -139,7 +143,7 @@ Authentification = nom de la fen�tre
 	    
 	    //c'est ici qu'on cr�e le bouton pour changer le pseudo 
 	    
-	    pseudoB = new JButton ( new AbstractAction("Verification du pseudo") {
+	    /*NewConnexion = new JButton ( new AbstractAction("Verification du pseudo") {
 	           
 			private static final long serialVersionUID = 1L;
 
@@ -150,13 +154,9 @@ Authentification = nom de la fen�tre
 	        
 	        
 	    });
-	    
-	    
-	   
+	      
 	    //Dimensions 
-	    
-	   
-	    
+
 	    //dimension bouton et placement
 	    connexionB.setBounds(300,500,200,40);
 	    
@@ -169,21 +169,11 @@ Authentification = nom de la fen�tre
 	    pwF.setBounds()
 	    connectedmess.setBounds()
 	    errormess.setBounds()
-	    pseudoB.setBounds()
+	    NewConnexion.setBounds()
 	    
-	    */
-	    
-	    
-	    
+	    */ 
 	    //Il faut ensuite tout ajouter au Panel
-	    interfacePanel.add(logIn);
-	    interfacePanel.add(log);
-	    interfacePanel.add(pwF);
-	    interfaceFrame.repaint();
-	    interfacePanel.add(pw);
-	    interfacePanel.add(connexionB);
-	    interfacePanel.add(connectedmess);
-	    interfacePanel.add(errormess);
+	    
 	 
 	    interfaceFrame.getContentPane().add(interfacePanel, BorderLayout.CENTER);
 	    
@@ -191,8 +181,9 @@ Authentification = nom de la fen�tre
 	    interfaceFrame.setSize(800,600);
 	    interfaceFrame.pack();
 	    
-	    
+	    System.out.println("Fin") ;
 	}
+	    
 	    
 	    
 	    
@@ -200,8 +191,7 @@ Authentification = nom de la fen�tre
 	        new InterfaceConnexion();
 	    }
 	    
-
-	     
 	}
+	     
 
 

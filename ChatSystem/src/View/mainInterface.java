@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import Controller.DatabaseManager;
 import Controller.UserManager;
+import Model.User;
 import Controller.NetworkManager;
 
 public class mainInterface {
@@ -23,11 +24,11 @@ public class mainInterface {
 	JScrollPane scroll;
 	JTextArea txt;
 
-	String selectedUser = null;
+	User selectedUser = new User("New");
 	
 	
 	private void updateConnectedUsers() {
-		usersToChoose = UserManager.pseudoTab().toArray(new String[UserManager.pseudoTab().size()]);
+		String[] usersToChoose = UserManager.pseudoTab().toArray(new String[UserManager.pseudoTab().size()]);
 		usrComboBox.setModel(new DefaultComboBoxModel<String>(usersToChoose));
 	}
 	
@@ -39,7 +40,7 @@ public class mainInterface {
 		msg = new JTextField(10);
 		coUsr = new JLabel("Connected Users : ");
 		envoyer = new JButton("Send");
-		selection = new JButton("Sélection");
+		selection = new JButton("Sï¿½lection");
 		logOut = new JButton("Log out");
 		refresh = new JButton("Refresh");
 		envoyer.setEnabled(false);
@@ -63,14 +64,15 @@ public class mainInterface {
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			//on met ses dimensions
 			scroll.setBounds(30, 70, 1200, 420);
-			//on l'ajoute à l'interface
+			//on l'ajoute ï¿½ l'interface
 			interfaceFrame.getContentPane().add(scroll);
 			
 			selection.addActionListener (new ActionListener() {
 				
 				public void actionPerformed(ActionEvent e) {
 					
-					selectedUser = usrComboBox.getItemAt(usrComboBox.getSelectedIndex());
+					String nom = usrComboBox.getItemAt(usrComboBox.getSelectedIndex());
+					selectedUser = new User(nom) ;
 					txt.setFont(new Font("Serif", Font.PLAIN, 15));
 					txt.setCaretPosition(txt.getText().length() - 1);
 					envoyer.setEnabled(true);
@@ -97,8 +99,8 @@ public class mainInterface {
 			envoyer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String message = msg.getText();
-
-					if (NetworkManager.sendMessage(selectedUser, message) == 0) {
+					NetworkManager net = new NetworkManager() ;
+					if (net.sendMessage(selectedUser, message) == 0) {
 						msg.setText("");
 					} else {
 						txt.setText("User " + selectedUser + " disconnected ! Choose another user");
