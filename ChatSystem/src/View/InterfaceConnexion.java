@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import Controller.DatabaseManager;
+import Controller.ThreadManager;
+import Model.User;
 
 public class InterfaceConnexion extends JFrame {
 
@@ -35,8 +37,8 @@ public class InterfaceConnexion extends JFrame {
 		this.logIn = new JTextField(15) ;
 		this.pw = new JLabel("Mot de passe :") ;
 		this.pwF = new JPasswordField(15) ;
-		connexionB = new JButton("Me connecter");
-		newConnexion = new JButton("S'inscrire");
+		this.connexionB = new JButton("Me connecter");
+		this.newConnexion = new JButton("S'inscrire");
 		
 		JPanel sousPanel0 = new JPanel();
 		sousPanel0.setOpaque(false);
@@ -47,7 +49,10 @@ public class InterfaceConnexion extends JFrame {
 		JPanel sousPanel3 = new JPanel();
 		sousPanel3.setOpaque(false) ;
 		
+		sousPanel0.setLayout(new BoxLayout(sousPanel0, BoxLayout.LINE_AXIS));
 		sousPanel1.setLayout(new BoxLayout(sousPanel1, BoxLayout.LINE_AXIS));
+		sousPanel2.setLayout(new BoxLayout(sousPanel2, BoxLayout.LINE_AXIS));
+		sousPanel3.setLayout(new BoxLayout(sousPanel3, BoxLayout.LINE_AXIS));
 		
 		sousPanel0.add(bienvenue) ;
 		
@@ -112,6 +117,7 @@ public class InterfaceConnexion extends JFrame {
 				else if (eq == 1) {
 					// connexion autoris�e, mdp correct
 					JOptionPane.showMessageDialog(null, "Connexion autorisée", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+					ThreadManager.newConnexion(new User(log)) ;
 				} else if (eq == 2) {
 					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.INFORMATION_MESSAGE);;
 				} else if (eq == -1) {
