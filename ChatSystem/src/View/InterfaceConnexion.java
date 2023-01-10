@@ -1,197 +1,162 @@
 package View;
 
-	import java.awt.*;
-	import javax.swing.*;
-	import java.awt.event.*;
+import java.awt.*;
+import javax.swing.*;
 
-	import Controller.DatabaseManager;
+import java.awt.event.*;
 
-	public class InterfaceConnexion {
-	    
-	    JPanel interfacePanel;
-	    JFrame interfaceFrame;
-	    JLabel log; JLabel pw; JLabel authen; JLabel mess; JLabel errormess;
-	    JButton connexionB; JButton NewConnexion;
-	    JTextField logIn; JTextField pwd; JTextField pseudoField;
-	    JPasswordField pwF;
-	    
-	    //constructeur
-	    public InterfaceConnexion() {
-	    
-	  
-	    interfacePanel = new JPanel(null);
-	    interfaceFrame = new JFrame("Authentification");
-	    
-	           //affichage fen�tre
-	    interfaceFrame.setVisible(true);
-	    interfacePanel.setBackground(Color.blue);
-	    interfacePanel.setOpaque(false); //car sinon par defaut c'est transparent
-	    
-	    
-	    
-	    interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    interfaceFrame.setLayout(null);
-	    
-	   
-	 
-//Authentification = nom de la fen�tre
-	    authen = new JLabel("Authentification");
-	    interfaceFrame.getContentPane().add(authen);
-	    log = new JLabel("Pseudo :");
-	    log.setBounds(200,260,200,40);
-	    log.setForeground(Color.WHITE);
-	    
-	    pw = new JLabel("Mot de passe :");
-	    pw.setBounds(200, 360, 200, 40);
-	    pw.setForeground(Color.WHITE);
-	    
-	    //bouton de connexion
-	    connexionB = new JButton("Me connecter");
-	    NewConnexion = new JButton("Nouveau compte");
-	    
-	    //champs de connexion à remplir par l'user
-	    logIn = new JTextField(); 
-	    
-	    //A voir si il est utilisé
-	    pwd = new JTextField();
-	    
-	    
-	    //mess.setForeground(Color.ORANGE);
-	    
-	    
-	    //lier l'action de s'enregistrer au bouton 
-	    
-	    pwF = new JPasswordField();
-	    errormess = new JLabel();
-	    
-	    interfacePanel.add(logIn);
-	    interfacePanel.add(log);
-	    interfacePanel.add(pwF);
-	    interfaceFrame.repaint();
-	    interfacePanel.add(pw);
-	    interfacePanel.add(connexionB);
-	    interfacePanel.add(errormess);
-	    interfaceFrame.add(authen);
-	    interfaceFrame.add(pwd);
-	    
-	    connexionB.addActionListener (new ActionListener () {
-	        
-	        
-	        public void actionPerformed(ActionEvent event) {
-	            
-	            //on r�cup�re ce que l'user tape dans les champs
-	            String log = logIn.getText(); 
-	            String mdp = String.valueOf(pwF.getPassword()); 
-	            pwF.addActionListener(this);
-	            
-	            //On initialise les deux messages de connexion et d'erreur
-	            //mess.setText("");
-	            errormess.setText("");
-	            
-	       
-	            int eq = - 1;
-	            
-	            try {
-	            	DatabaseManager DM = new DatabaseManager();
-	            	
-	                //Recherche dans la base de donn�es si la correspondance login/mdp est bonne
-	                eq = DM.verifyLogin(log,mdp);
-	                
-	                //Affichage du resultat de verfyLogin pour tester
-	                System.out.println("R�sultat de la recherche dans la base de donn�es : " + Integer.toString(eq));
-	            
-	            } catch(ArrayIndexOutOfBoundsException | NumberFormatException e) {
-	                // si erreur inconnue lors de l'execution
-	                errormess.setText("Erreur inconnue lors de la connexion!");
-	            }
-	            //Soit le mot de passe ou l'id est incorrect 
-	            //Soit le compte n'exitse pas dans ce cas, on le cr�e 
-	            
-	            if (eq == 0) {
-	                //si verifyLogin renvoie 0 c'est une erreur de correspondance
-	                errormess.setText("Erreur d'authentification mot de passe incorrect");
-	                connexionB.setText("Connexion failed");
-	            }
-	            //Soit je me connecte soit je cr�e un nouvel user
-		        else if (eq == 1) {
-		        	//connexion autoris�e, mdp correct
-		        	connexionB.setText("CONNECTE !");
-		        } 
-		        else if (eq==2) {  
-		        	errormess.setText("Erreur d'authentification identifiant incorrect");
-		            connexionB.setText("Connexion failed");
-		        }		                   
-		        else if (eq==-1) {
-		        	errormess.setText("Erreur serveur");
-		            connexionB.setText("Connexion failed");
-		        }
-	            /*connectedmess.setText("Connexion r�ussie, veuillez choisir un pseudo :");
-		            interfacePanel.add(pseudoField);
-               		interfacePanel.add(NewConnexion);*/
-	            connexionB.setEnabled(false);
-	            logIn.setEnabled(false);
-	            pwd.setEnabled(false);
-	            	
-		            
-	            //permet de remettre � jour la Frame 
-	            interfaceFrame.revalidate();
-	            interfaceFrame.repaint();
-	        }
-	    });
-	    
-	    //Changer notre pseudo 
-	    
-	    //c'est ici qu'on cr�e le bouton pour changer le pseudo 
-	    
-	    /*NewConnexion = new JButton ( new AbstractAction("Verification du pseudo") {
-	           
-			private static final long serialVersionUID = 1L;
+import Controller.DatabaseManager;
+
+public class InterfaceConnexion extends JFrame {
+
+	private JLabel log;
+	private JLabel pw;
+	private JLabel bienvenue ;
+	private JButton connexionB;
+	private JButton newConnexion;
+	private JTextField logIn;
+	private JPasswordField pwF;
+
+	// constructeur
+	public InterfaceConnexion() {
+		this.setTitle("Authentification");
+		this.setSize(500, 500);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.setOpaque(false);
+		
+		this.bienvenue = new JLabel("Bienvenue dans votre application de clavardage !") ;
+		this.log = new JLabel("Pseudo :") ;
+		this.logIn = new JTextField(15) ;
+		this.pw = new JLabel("Mot de passe :") ;
+		this.pwF = new JPasswordField(15) ;
+		connexionB = new JButton("Me connecter");
+		newConnexion = new JButton("S'inscrire");
+		
+		JPanel sousPanel0 = new JPanel();
+		sousPanel0.setOpaque(false);
+		JPanel sousPanel1 = new JPanel();
+		sousPanel1.setOpaque(false);
+		JPanel sousPanel2 = new JPanel();
+		sousPanel2.setOpaque(false) ;
+		JPanel sousPanel3 = new JPanel();
+		sousPanel3.setOpaque(false) ;
+		
+		sousPanel1.setLayout(new BoxLayout(sousPanel1, BoxLayout.LINE_AXIS));
+		
+		sousPanel0.add(bienvenue) ;
+		
+		sousPanel1.add(log) ;
+		sousPanel1.add(Box.createHorizontalStrut(10));
+		sousPanel1.add(logIn) ;
+		
+		sousPanel2.add(pw) ;
+		sousPanel2.add(Box.createHorizontalStrut(10));
+		sousPanel2.add(pwF) ;
+		
+		sousPanel3.add(connexionB) ;
+		sousPanel3.add(Box.createHorizontalStrut(10));
+		sousPanel3.add(newConnexion) ;
+		
+		
+		panel.add(sousPanel0) ;
+		panel.add(Box.createVerticalStrut(30));
+		panel.add(sousPanel1);
+		panel.add(Box.createVerticalStrut(10));
+		panel.add(sousPanel2) ;
+		panel.add(Box.createVerticalStrut(10));
+		panel.add(sousPanel3) ;
+		
+		JPanel finalPanel = new JPanel();
+		finalPanel.setBackground(Color.decode("#afeeee"));
+		finalPanel.setLayout(new GridBagLayout());
+		finalPanel.add(panel);
+		
+		this.add(finalPanel);
+		
+		this.setVisible(false);
+		
+		connexionB.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent event) {
-	             // � finir 
-	             // faire la partie de l'interface pour changer le pseudo
-	        }
-	        
-	        
-	    });
-	      
-	    //Dimensions 
 
-	    //dimension bouton et placement
-	    connexionB.setBounds(300,500,200,40);
-	    
-	    //dimensions fields � remplir
-	    logIn.setBounds(200,300,200,40);
-	    pwd.setBounds(200, 400, 200, 40);
-	    
-	    /* dimensions � d�finir quand je pourrais tester
-	    log.setBounds.setBounds();
-	    pwF.setBounds()
-	    connectedmess.setBounds()
-	    errormess.setBounds()
-	    NewConnexion.setBounds()
-	    
-	    */ 
-	    //Il faut ensuite tout ajouter au Panel
-	    
-	 
-	    interfaceFrame.getContentPane().add(interfacePanel, BorderLayout.CENTER);
-	    
-	     // dimension fen�tre & affichage 
-	    interfaceFrame.setSize(800,600);
-	    interfaceFrame.pack();
-	    
-	    System.out.println("Fin") ;
+				// on r�cup�re ce que l'user tape dans les champs
+				String log = logIn.getText();
+				String mdp = String.valueOf(pwF.getPassword());
+				pwF.addActionListener(this);
+
+
+				int eq = -1;
+
+				try {
+					DatabaseManager DM = new DatabaseManager();
+
+					eq = DM.verifyLogin(log, mdp);
+
+				} catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+					// si erreur inconnue lors de l'execution
+					JOptionPane.showMessageDialog(null, "Catch erreur inconnue", "Connexion", JOptionPane.ERROR_MESSAGE);
+				}
+				// Soit le mot de passe ou l'id est incorrect
+				// Soit le compte n'exitse pas dans ce cas, on le cr�e
+
+				if (eq == 0) {
+					// si verifyLogin renvoie 0 c'est une erreur de correspondance
+					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.ERROR_MESSAGE);
+				}
+				else if (eq == 1) {
+					// connexion autoris�e, mdp correct
+					JOptionPane.showMessageDialog(null, "Connexion autorisée", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+				} else if (eq == 2) {
+					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.INFORMATION_MESSAGE);;
+				} else if (eq == -1) {
+					JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}) ;
+		
+		newConnexion.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent event) {
+				String log = logIn.getText();
+				String mdp = String.valueOf(pwF.getPassword());
+				pwF.addActionListener(this);
+				
+				int eq= DatabaseManager.NewUser(log, mdp) ;
+				if (eq == 1) {
+					JOptionPane.showMessageDialog(null, "Nouvel utilisateur créé", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if (eq==0) {
+					JOptionPane.showMessageDialog(null, "Pseudo déjà utilisé", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(eq==-1) {
+					JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}) ;
+
 	}
-	    
-	    
-	    
-	    
-	    public static void main(String [] args) {
-	        new InterfaceConnexion();
-	    }
-	    
+	
+	
+	
+	
+	private void showFrame() {
+		this.setVisible(true);
 	}
-	     
 
+	public static void main(String[] args) {
+		DatabaseManager.create() ;
+		DatabaseManager.reset() ;
+		DatabaseManager.Setup() ;
+		DatabaseManager.NewUser("Nicolas", "prolol") ;
+		DatabaseManager.NewUser("Shivaree", "Inox") ;
+		
+		new InterfaceConnexion().showFrame();
+	}
 
+}
