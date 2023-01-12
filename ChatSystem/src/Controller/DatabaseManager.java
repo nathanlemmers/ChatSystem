@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 import Model.Message;
 
-public class DatabaseManager {
+public abstract class DatabaseManager {
 	static Connection con = null ;
 	static Statement statement ;
 	static ResultSet rs ;

@@ -1,12 +1,14 @@
 package Model;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Annuaire {
 	
 	public HashMap<String, User> annuaire ;
 	private static final Annuaire instance = new Annuaire();
+	private ArrayList<String> liste = new ArrayList<String>() ;
 	
 	private Annuaire() {
 		annuaire = new HashMap<String,User>() ;
@@ -17,6 +19,7 @@ public class Annuaire {
 		User u = annuaire.get(adressIP) ;
 		if (u==null) {
 		annuaire.put(adressIP, u1) ;
+		liste.add(u1.getPseudo()) ;
 		return 0 ;
 		} else {
 			return -1 ;
@@ -28,6 +31,7 @@ public class Annuaire {
 		User u = annuaire.get(address) ;
 		if (u!=null) {
 			annuaire.remove(address) ;
+			liste.remove(u1.getPseudo()) ;
 			return 0 ;
 		}
 		else {
@@ -36,7 +40,9 @@ public class Annuaire {
 	}
 	
 	public void modifyAnnuaire(InetAddress address, User u) {
+		liste.remove(annuaire.get(address.toString()).getPseudo() ) ;
 		annuaire.replace(address.toString(), u) ;
+		liste.add(u.getPseudo()) ;
 	}
 	
 	public User getUser(String address) {
@@ -65,6 +71,17 @@ public class Annuaire {
 	}
 	
 	
+	public int size() {
+		return annuaire.size() ;
+	}
+	
+	public String getListe() {
+		return liste.toString() ;
+	}
+	
+	public String getListUser(int i) {
+		return liste.get(i) ;
+	}
 	
 	
 }

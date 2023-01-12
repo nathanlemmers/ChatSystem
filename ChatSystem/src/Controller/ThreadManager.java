@@ -19,10 +19,12 @@ public abstract class ThreadManager {
 		client.close();
 	}
 
-	public static void deconnexion() {
+	public static void deconnexion(User u) {
 		client = new ClientUDP(new User("deconnexion")) ;
 		client.sendUser();
 		client.close();
+		ServeurUDP serveur = new ServeurUDP(u) ;
+		serveur.stop();
 	}
 	
 	

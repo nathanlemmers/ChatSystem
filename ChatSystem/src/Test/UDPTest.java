@@ -23,8 +23,7 @@ public class UDPTest {
 	
 	public static void main (String args[]) {
 		ThreadManager.newConnexion(nouveau) ;
-		ThreadManager.changePseudo(ancien);
-		ThreadManager.deconnexion();
+		ThreadManager.deconnexion(nouveau);
 	}
 	
 	

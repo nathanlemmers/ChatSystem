@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import java.awt.event.*;
 
+import Controller.Connexion;
 import Controller.DatabaseManager;
 import Controller.ThreadManager;
 import Model.User;
@@ -99,9 +100,7 @@ public class InterfaceConnexion extends JFrame {
 				int eq = -1;
 
 				try {
-					DatabaseManager DM = new DatabaseManager();
-
-					eq = DM.verifyLogin(log, mdp);
+					eq = Connexion.ConnexionCompte(log, mdp) ;
 
 				} catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
 					// si erreur inconnue lors de l'execution
@@ -116,8 +115,8 @@ public class InterfaceConnexion extends JFrame {
 				}
 				else if (eq == 1) {
 					// connexion autoris�e, mdp correct
-					JOptionPane.showMessageDialog(null, "Connexion autorisée", "Connexion", JOptionPane.INFORMATION_MESSAGE);
-					ThreadManager.newConnexion(new User(log)) ;
+					new InterfaceManager(log, mdp).showFrame() ;
+					dispose() ;
 				} else if (eq == 2) {
 					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.INFORMATION_MESSAGE);;
 				} else if (eq == -1) {
@@ -147,11 +146,10 @@ public class InterfaceConnexion extends JFrame {
 		}) ;
 
 	}
+
 	
 	
-	
-	
-	private void showFrame() {
+	public void showFrame() {
 		this.setVisible(true);
 	}
 

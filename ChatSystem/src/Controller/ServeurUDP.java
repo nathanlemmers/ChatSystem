@@ -15,7 +15,7 @@ import Model.Annuaire;
 
 public class ServeurUDP implements Runnable {
 
-	private boolean running ; //A voir comment arreter le processus
+	private static boolean running ; //A voir comment arreter le processus
 	private DatagramSocket socket;
 	private User u ;
 	private ArrayList<InetAddress> local = new ArrayList<InetAddress>() ;
@@ -47,7 +47,6 @@ public class ServeurUDP implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println();
 		while (running) {
 			byte[] buf = new byte[256];
 			DatagramPacket packet  = new DatagramPacket(buf, buf.length);
@@ -86,9 +85,15 @@ public class ServeurUDP implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		socket.close();
+		System.out.println("on sort du while") ;
 		
 		
-		
+	}
+	
+	public void stop() {
+		running =false ;
+		socket.close() ;
 	}
 	
 	
