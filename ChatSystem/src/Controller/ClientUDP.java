@@ -19,7 +19,7 @@ public class ClientUDP {
     public ClientUDP(User u) {
     	try {
     		this.u = u ;
-			socket = new DatagramSocket() ;
+			socket = new DatagramSocket(4000) ;
 			address = InetAddress.getByName("255.255.255.255") ;
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
@@ -37,6 +37,7 @@ public class ClientUDP {
         	DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4446) ;
 			socket.send(packet);
 			packet = new DatagramPacket(buf, buf.length) ;
+			System.out.println("Message envoyé") ;
 			socket.receive(packet);
 			InetAddress address = packet.getAddress() ;
 			String receive = new String (packet.getData(), 0, packet.getLength()) ;

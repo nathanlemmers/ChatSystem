@@ -49,9 +49,12 @@ public class Annuaire {
 		return annuaire.get(address) ;
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public String getIP(User u) {
+		String user = u.toString() ;
 		for (String ip : annuaire.keySet()) {
-			if (annuaire.get(ip).equals(u)) {
+			String userIp = annuaire.get(ip).toString() ;
+			if (userIp.equals(user)) {
 				return ip ;
 			}
 		}

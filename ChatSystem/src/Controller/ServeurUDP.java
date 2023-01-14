@@ -21,19 +21,21 @@ public class ServeurUDP implements Runnable {
 	private ArrayList<InetAddress> local = new ArrayList<InetAddress>() ;
 	
 	public ServeurUDP(User u) {
-		try {
+//		try {
 			this.u = u ;
-			socket = new DatagramSocket(4446) ;
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (SocketException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	@Override
 	public void run() {
 		running = true ;
+		
 		try {
+			System.out.println("AAAAAAAAAAA") ;
+			socket = new DatagramSocket(4446) ;
 			Enumeration<NetworkInterface> ntw = NetworkInterface.getNetworkInterfaces() ;
 			
 			while (ntw.hasMoreElements()) {
@@ -93,7 +95,6 @@ public class ServeurUDP implements Runnable {
 	
 	public void stop() {
 		running =false ;
-		socket.close() ;
 	}
 	
 	

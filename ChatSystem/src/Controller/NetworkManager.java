@@ -11,9 +11,10 @@ import java.util.HashMap;
 
 import Model.Annuaire;
 import Model.Conversation;
+import Model.Message;
 import Model.User;
 
-public class NetworkManager {
+public class NetworkManager  implements Runnable {
 	private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter out;
@@ -23,10 +24,16 @@ public class NetworkManager {
     public HashMap <InetAddress,String> portConnexion = new HashMap<InetAddress,String>() ;
     public InetAddress address = null ;
 	
-	public void start() throws IOException {
+	public void run() {
 		
 		String greeting = null ;
-		serverSocket = new ServerSocket(6667);
+		try {
+			serverSocket = new ServerSocket(6667);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("Serveur TCP lancé") ;
     	while(Connexion.etat==1) {
     		try {
     			clientSocket = serverSocket.accept();
@@ -63,8 +70,8 @@ public class NetworkManager {
                 Connexion.etat =0 ;
             }
     	}
-    	System.out.println("On s'arrete") ;
     	stop() ;
+    	System.out.println("On s'arrete") ;
     }
 
     public void stop() {
@@ -81,13 +88,17 @@ public class NetworkManager {
     
     // O si erreur, 1 si tout va bien
     public int sendMessage(User u, String msg) {
-    	ClientTCP Client = new ClientTCP() ; 
     	System.out.println("debut connexion") ;
+    	ClientTCP Client = new ClientTCP() ; 
     	int port = Client.startConnection(u) ;
     	System.out.println("On trouve comme port de destination : " + port) ;
     	if (port!=-1) {
     		String validation = Client.sendMessage(msg, port) ;
     		if(validation.equals("recu")) {
+    		System.out.println("LE MESSAGE ENVOYE EST : " + msg) ;
+//    		Conversation.getInstance().addMessage(u, "Me : " + msg) ;
+    		System.out.println("Archivage dans network") ;
+    		DatabaseManager.ArchivageMessage(new Message(new User("me"), u, msg)) ;
     		return 1 ;
     		}
     	} else {
@@ -103,14 +114,9 @@ public class NetworkManager {
     	NetworkManager net = new NetworkManager() ;
     	User u = new User("me") ;
     	Annuaire.getInstance().addAnuaire("10.1.5.78", u) ;
-    	try {
-    		
-			net.start() ;
-			Conversation.getInstance().printConversation() ;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		net.run() ;
+		Conversation.getInstance().printConversation() ;
+
     	
     	
     }

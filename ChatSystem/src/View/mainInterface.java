@@ -96,21 +96,20 @@ public class mainInterface {
 				}
 			});
 
-			envoyer.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String message = msg.getText();
-					NetworkManager net = new NetworkManager() ;
-					if (net.sendMessage(selectedUser, message) == 0) {
-						msg.setText("");
-					} else {
-						txt.setText("User " + selectedUser + " disconnected ! Choose another user");
-						selectedUser = null;
-						updateConnectedUsers();
-						envoyer.setEnabled(false);
-
-					}
-				}
-			});
+//			envoyer.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					String message = msg.getText();
+//					if (net.sendMessage(selectedUser, message) == 0) {
+//						msg.setText("");
+//					} else {
+//						txt.setText("User " + selectedUser + " disconnected ! Choose another user");
+//						selectedUser = null;
+//						updateConnectedUsers();
+//						envoyer.setEnabled(false);
+//
+//					}
+//				}
+//			});
 
 		
 		

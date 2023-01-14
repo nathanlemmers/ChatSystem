@@ -28,7 +28,7 @@ public class ClientTCP {
 	        try {
 	        	this.u = u ;
 	        	System.out.println("Connexion au serveur principal") ;
-	        	ip =  Annuaire.getInstance().getIP(u) ;
+	        	ip =  Annuaire.getInstance().getIP(u).substring(1) ;
 	        	System.out.println(ip) ;
 				clientSocket = new Socket(ip, 6667);
 				out = new PrintWriter(clientSocket.getOutputStream(), true);

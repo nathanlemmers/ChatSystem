@@ -10,8 +10,8 @@ public class Message {
 	private String contenu ; 
 
 	public Message (User u1, User u2, String contenu) {
-		this.emetteur = emetteur  ;
-		this.receveur = receveur ;
+		this.emetteur = u1  ;
+		this.receveur = u2 ;
 		this.date = new Timestamp(System.currentTimeMillis()) ;
 		this.contenu = contenu ;
 	}
@@ -30,6 +30,10 @@ public class Message {
 	
 	public String getContenu() {
 		return contenu ;
+	}
+	
+	public String affichageMessage(Message mess) {
+		return (mess.emetteur.getPseudo() + " : " + mess.contenu) ;
 	}
 	
 }

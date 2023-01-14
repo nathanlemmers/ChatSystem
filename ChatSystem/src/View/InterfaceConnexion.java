@@ -4,9 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.io.IOException;
 
 import Controller.Connexion;
 import Controller.DatabaseManager;
+import Controller.NetworkManager;
 import Controller.ThreadManager;
 import Model.User;
 
@@ -19,6 +21,7 @@ public class InterfaceConnexion extends JFrame {
 	private JButton newConnexion;
 	private JTextField logIn;
 	private JPasswordField pwF;
+	private NetworkManager net ;
 
 	// constructeur
 	public InterfaceConnexion() {
@@ -115,7 +118,9 @@ public class InterfaceConnexion extends JFrame {
 				}
 				else if (eq == 1) {
 					// connexion autoris�e, mdp correct
+					new Thread(new NetworkManager()).start();
 					new InterfaceManager(log, mdp).showFrame() ;
+					
 					dispose() ;
 				} else if (eq == 2) {
 					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.INFORMATION_MESSAGE);;
@@ -137,10 +142,10 @@ public class InterfaceConnexion extends JFrame {
 					JOptionPane.showMessageDialog(null, "Nouvel utilisateur créé", "Connexion", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if (eq==0) {
-					JOptionPane.showMessageDialog(null, "Pseudo déjà utilisé", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Pseudo déjà utilisé", "Connexion", JOptionPane.ERROR_MESSAGE);
 				}
 				else if(eq==-1) {
-					JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}) ;

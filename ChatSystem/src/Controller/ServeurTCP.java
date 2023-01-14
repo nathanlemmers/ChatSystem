@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Model.Annuaire;
 import Model.Conversation;
+import Model.Message;
 import Model.User;
 
 public class ServeurTCP implements Runnable {
@@ -18,6 +20,7 @@ public class ServeurTCP implements Runnable {
     private BufferedReader in;
     private User u ;
     private int port ;
+    private User envoyer ;
     
     public ServeurTCP (int p, User u) {
     	this.u = u ;
@@ -25,7 +28,6 @@ public class ServeurTCP implements Runnable {
     }
     
     public void run() {
-    	this.u = u ;
     	boolean running = true ;
     	String greeting = null ;
     	while(running) {
@@ -39,6 +41,8 @@ public class ServeurTCP implements Runnable {
 	        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	        System.out.println("Serveur en ecoute") ;
 	        greeting = in.readLine();
+	        envoyer = Annuaire.getInstance().getUser(clientSocket.getInetAddress().toString());
+	        
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,9 +56,12 @@ public class ServeurTCP implements Runnable {
                 out.println("recu");
                 System.out.println(greeting) ;
                 System.out.println(u) ;
-                Conversation.getInstance().addMessage(u, u.toString()+ " : " + greeting) ;
+//                Conversation.getInstance().addMessage(envoyer, envoyer.toString()+ " : " + greeting) ;
+                System.out.println("Archivage dans serveur") ;
+                DatabaseManager.ArchivageMessage(new Message(envoyer, new User("me"), greeting)) ;
+				System.out.println(DatabaseManager.getMessage(envoyer, new User("me"))) ;
                 stop() ;
-                Conversation.getInstance().printConversation() ;
+//                Conversation.getInstance().printConversation() ;
             }
     	}
     }

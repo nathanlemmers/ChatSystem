@@ -5,15 +5,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Model.Message;
+import Model.User;
 
 public abstract class DatabaseManager {
 	static Connection con = null ;
 	static Statement statement ;
 	static ResultSet rs ;
 	static int new_id ;
-	
+	static int run = 0 ;
 	
 	public static void Setup() {
 		
@@ -147,21 +149,58 @@ public abstract class DatabaseManager {
 		return result ;
 	}
 	
+	
+	public static ArrayList<String> getMessage(User u1, User u2) {
+		ArrayList<String> list = new ArrayList<String>() ;
+		Statement stat ;
+		try {
+			String req = "SELECT user2, contenu FROM message WHERE user1= '" + u1 + "'" ;
+			stat=con.createStatement() ;
+			rs = stat.executeQuery(req) ;
+			while (rs.next()==true) {
+				User u3 = new User(rs.getString("user2")) ;
+				if (u3.toString().equals(u2.toString())) {
+					list.add(rs.getString("contenu")) ;
+				}
+			}
+			stat.close() ;
+			req = "SELECT user1, contenu FROM message WHERE user2= '" + u1 + "'" ;
+			stat=con.createStatement() ;
+			rs = stat.executeQuery(req) ;
+			while (rs.next()==true) {
+				User u3 = new User(rs.getString("user1")) ;
+				if (u3.toString().equals(u2.toString())) {
+					list.add(rs.getString("contenu")) ;
+				}
+			}
+			stat.close() ;
+		} catch (SQLException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(run) ;
+		return list ;
+	}
+	
+	
 	//Renvoie -1 si erreur, 1 sinon
 	//DATE A COMPLETER, CHANGER LE TYPE, ETC
 	public static int ArchivageMessage(Message message) {
+		Statement stat ;
 		int result = -1 ;
-		String query = "INSERT INTO message VALUES ('" + message.getEmetteur() + "', '" + message.getReceveur() + "', '"+ message.getDate() + "', '" + message.getContenu() + "')" ;
+		String query = "INSERT INTO message VALUES ('" + message.getEmetteur() + "', '" + message.getReceveur() + "', '"+ message.getDate() + "', '" + message.getReceveur().getPseudo() + " : " + message.getContenu() + "')" ;
 		try {
-			statement = con.createStatement() ;
-			statement.executeUpdate(query) ;
+			stat = con.createStatement() ;
+			stat.executeUpdate(query) ;
 			result = 1 ;
-			statement.close() ;
+			stat.close() ;
 			System.out.println("Message Archivé") ;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(run) ;
 		return result ;
 	}
 	
@@ -211,9 +250,10 @@ public abstract class DatabaseManager {
 		create() ;
 		reset() ;
 		Setup() ;
-		NewUser("Nicolas", "prolol") ;
-		NewUser("Shivaree", "Inox") ;
-		ChangerMdp("Nicolas", "prolol","prolog") ;
+		User u1 = new User("n"); 
+		User u2 = new User("a") ;
+		ArchivageMessage(new Message(u1, u2, "Yo")) ;
+		System.out.println(getMessage(u2, u1)) ;
 		}
 	
 }

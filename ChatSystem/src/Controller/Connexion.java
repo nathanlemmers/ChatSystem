@@ -8,6 +8,7 @@ public abstract class Connexion {
 
 	public static int ConnexionCompte(String pseudo, String mdp) {
 		if (DatabaseManager.verifyLogin(pseudo, mdp)==1) {
+			System.out.println("BBBBBBBBBB") ;
 			ThreadManager.newConnexion(new User(pseudo));
 			return 1 ;
 		} else {

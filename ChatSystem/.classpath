@@ -11,12 +11,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/lemmers/Téléchargements/sqlite-jdbc-3.39.4.1.jar">
+	<classpathentry kind="lib" path="C:/Users/natha/OneDrive/Documents/Documents/Insa/4-IR/ChatSystem/sqlite-jdbc-3.39.4.1.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/lemmers/Téléchargements/mysql-connector-java-5.1.15-bin.jar">
+	<classpathentry kind="lib" path="C:/Users/natha/OneDrive/Documents/Documents/Insa/4-IR/ChatSystem/mysql-connector-java-5.1.15-bin.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
