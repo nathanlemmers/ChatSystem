@@ -213,6 +213,10 @@ public abstract class DatabaseManager {
 				statement.executeUpdate(query) ;
 				statement.close() ;
 				System.out.println("Pseudo modifié avec succès.") ;
+//				query = "UPDATE message SET u1 = '"+NewPseudo+"' WHERE u1 = '" + AncienPseudo +"'" ;
+//				statement = con.createStatement() ;
+//				statement.executeUpdate(query) ;
+//				statement.close() ;
 				return 1 ;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

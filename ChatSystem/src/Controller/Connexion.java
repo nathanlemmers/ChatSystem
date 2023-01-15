@@ -29,6 +29,8 @@ public abstract class Connexion {
 	
 	public static void Deconnexion(String pseudo, String mdp) {
 		ThreadManager.deconnexion(new User(pseudo));
+		NetworkManager net = new NetworkManager() ;
+		net.stop();
 		etat = 0 ;
 	}
 	

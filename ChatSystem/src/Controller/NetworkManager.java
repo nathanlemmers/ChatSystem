@@ -15,10 +15,10 @@ import Model.Message;
 import Model.User;
 
 public class NetworkManager  implements Runnable {
-	private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+	private static ServerSocket serverSocket;
+    private static Socket clientSocket;
+    private static PrintWriter out;
+    private static BufferedReader in;
     private User u = new User("me");
     public static int p = 1025 ;
     public HashMap <InetAddress,String> portConnexion = new HashMap<InetAddress,String>() ;
@@ -33,6 +33,7 @@ public class NetworkManager  implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		Connexion.etat=1 ;
 		System.out.println("Serveur TCP lancé") ;
     	while(Connexion.etat==1) {
     		try {
@@ -44,10 +45,10 @@ public class NetworkManager  implements Runnable {
     	        address = clientSocket.getInetAddress() ;
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
-    				e.printStackTrace();
+//    				e.printStackTrace();
     			}
     		 	System.out.println("Message recu : " +greeting) ;
-            if (greeting.equals("new")) {
+            if ((greeting!=null) && (greeting.equals("new"))) {
             	if (portConnexion.containsKey(address)) {
             		out.println(portConnexion.get(address));
             	}
@@ -66,7 +67,7 @@ public class NetworkManager  implements Runnable {
             }
             else {
             	System.out.println("On a pas recu le bon message") ;
-                out.println("erreur");
+//                out.println("erreur");
                 Connexion.etat =0 ;
             }
     	}
@@ -76,9 +77,15 @@ public class NetworkManager  implements Runnable {
 
     public void stop() {
         try {
-			in.close();
-			out.close();
-	        clientSocket.close();
+        	if (in!=null) {
+        		in.close();
+        	}
+        	if (out!=null) {
+    			out.close();
+        	}
+        	if (clientSocket!=null) {
+    	        clientSocket.close();
+        	}
 	        serverSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
