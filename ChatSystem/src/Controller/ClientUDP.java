@@ -36,14 +36,16 @@ public class ClientUDP {
      		buf = pseudo.getBytes() ;
         	DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4446) ;
 			socket.send(packet);
+			buf = new byte[256];
 			packet = new DatagramPacket(buf, buf.length) ;
 			System.out.println("Message envoyé") ;
-			socket.receive(packet);
-			InetAddress address = packet.getAddress() ;
-			String receive = new String (packet.getData(), 0, packet.getLength()) ;
-			//Pour test
-			//
-			Annuaire.getInstance().addAnuaire(address.toString(),new User(receive)) ;
+//			socket.receive(packet);
+//			InetAddress address = packet.getAddress() ;
+//			String receive = new String (packet.getData(), 0, packet.getLength()) ;
+//			//Pour test
+//			//
+//			System.out.println("Dans le client : " + receive) ;
+//			Annuaire.getInstance().addAnuaire(address.toString(),new User(receive)) ;
 			//Annuaire.addAnuaire(new User(receive)) ;	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

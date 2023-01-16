@@ -8,6 +8,7 @@ public abstract class ThreadManager {
 	
 	public static void newConnexion(User u) {
 		new Thread(new ServeurUDP(u)).start() ;
+		System.out.println(u) ;
 		client = new ClientUDP(u) ;
 		client.sendUser();
 		client.close();

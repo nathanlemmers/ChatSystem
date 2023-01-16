@@ -83,10 +83,15 @@ public class InterfaceManager extends JFrame {
 		contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		for (int i=0; i<nbrContact ; i++) {
-			this.cont =  new JButton(Annuaire.getInstance().getListUser(i)) ;
+			String nom = new String (Annuaire.getInstance().getListUser(i)) ;
+			this.cont =  new JButton(nom) ;
 			contact.add(cont) ;
 			System.out.println("On passe par là") ;
 		}
+		
+		mess = new JPanel() ;
+		mess.setOpaque(false);
+		mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
 		
 		JPanel envoi = new JPanel() ;
 		envoi.setLayout(new BoxLayout(envoi, BoxLayout.LINE_AXIS));
@@ -114,8 +119,9 @@ public class InterfaceManager extends JFrame {
  		finalPanel.add(contact) ;
  		finalPanel.add(Box.createVerticalStrut(10)) ;
  		finalPanel.add(Box.createVerticalGlue()) ;
+ 		finalPanel.add(mess) ;
  		finalPanel.add(envoi) ;
- 		finalPanel.add(Box.createVerticalStrut(10)) ;
+
 // 		finalPanel.add(mess) ;
 		
 		this.add(finalPanel);
@@ -146,14 +152,13 @@ public class InterfaceManager extends JFrame {
 		
 		cont.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (mess!= null ) {
-					finalPanel.remove(mess);
-					if (contenu!= null) {
-						mess.remove(contenu);
-					}
+				System.out.println("AAAAAAAAAA") ;
+				if (mess==null) {
+					mess = new JPanel() ;
 				}
-				finalPanel.remove(envoi);
-				mess = new JPanel();
+				else {
+					mess.removeAll() ;
+				}
 				mess.setOpaque(false);
 				mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
 				contact_du_moment = new User(cont.getText()) ;
@@ -169,8 +174,6 @@ public class InterfaceManager extends JFrame {
 					mess.add(Box.createVerticalStrut(5)) ;
 					System.out.println(list.get(i)) ;
 				}
-				finalPanel.add(mess) ;
-				finalPanel.add(envoi) ;
 				showFrame();
 			}
 		});
@@ -189,21 +192,46 @@ public class InterfaceManager extends JFrame {
 				
 				for (int i=0; i<nbrContact ; i++) {
 					System.out.println(Annuaire.getInstance().getListUser(i)) ;
-					cont =  new JButton(Annuaire.getInstance().getListUser(i)) ;
+					String nom = new String (Annuaire.getInstance().getListUser(i)) ;
+					cont =  new JButton(nom) ;
+					cont.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							System.out.println("AAAAAAAAAA") ;
+							if (mess==null) {
+								mess = new JPanel() ;
+							}
+							else {
+								mess.removeAll() ;
+							}
+							mess.setOpaque(false);
+							mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
+							contact_du_moment = new User(cont.getText()) ;
+							System.out.println(Annuaire.getInstance().getIP(contact_du_moment)) ;
+							System.out.println(Annuaire.getInstance().annuaire);
+							
+							list = DatabaseManager.getMessage(contact_du_moment, new User("me")) ;
+							
+							for (int i= 0; i<list.size() ; i++) {
+								contenu = new JTextField(list.get(i)) ;
+								contenu.setMaximumSize(newPseudo.getPreferredSize());
+								mess.add(contenu) ;
+								mess.add(Box.createVerticalStrut(5)) ;
+								System.out.println(list.get(i)) ;
+							}
+							showFrame();
+						}
+					});
 					contact.add(cont) ;
 					System.out.println("BBB" +nbrContact) ;
 				}
 				if (mess!= null ) {
-					finalPanel.remove(mess);
-					if (contenu!= null) {
-						mess.remove(contenu);
-					}
+					mess.removeAll() ;
+				} else {
+					mess = new JPanel();
 				}
-				finalPanel.remove(envoi);
-				mess = new JPanel();
 				mess.setOpaque(false);
 				mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
-				list = DatabaseManager.getMessage(contact_du_moment, new User("me")) ;
+				list = DatabaseManager.getMessage(contact_du_moment, new User(pseudo)) ;
 				for (int i= 0; i<list.size() ; i++) {
 					contenu = new JTextField(list.get(i)) ;
 					contenu.setMaximumSize(newPseudo.getPreferredSize());
@@ -211,11 +239,10 @@ public class InterfaceManager extends JFrame {
 					mess.add(Box.createVerticalStrut(5)) ;
 					System.out.println(list.get(i)) ;
 				}
-				finalPanel.add(mess) ;
-				finalPanel.add(envoi) ;
 				showFrame();
 				System.out.println(Annuaire.getInstance().getListe()) ;
 				System.out.println(Annuaire.getInstance().getAnnuaire()) ;
+				System.out.println(DatabaseManager.getMessage(new User(pseudo), contact_du_moment)) ;
 			}
 		});
 		

@@ -106,7 +106,7 @@ public class NetworkManager  implements Runnable {
     		System.out.println("LE MESSAGE ENVOYE EST : " + msg) ;
 //    		Conversation.getInstance().addMessage(u, "Me : " + msg) ;
     		System.out.println("Archivage dans network") ;
-    		DatabaseManager.ArchivageMessage(new Message(new User(InterfaceManager.getMe()), u, msg)) ;
+//    		DatabaseManager.ArchivageMessage(new Message(new User(InterfaceManager.getMe()), u, msg)) ;
     		return 1 ;
     		}
     	} else {

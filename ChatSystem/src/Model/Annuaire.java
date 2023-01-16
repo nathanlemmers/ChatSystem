@@ -20,7 +20,7 @@ public class Annuaire {
 		if (u==null) {
 		annuaire.put(adressIP, u1) ;
 		liste.add(u1.getPseudo()) ;
-		System.out.println("On ajoute dans l'annuaire") ;
+		System.out.println("On ajoute dans l'annuaire : " + u1.getPseudo()) ;
 		return 0 ;
 		} else {
 			return -1 ;

@@ -23,6 +23,7 @@ public class ServeurUDP implements Runnable {
 	public ServeurUDP(User u) {
 //		try {
 			this.u = u ;
+			System.out.println(u) ;
 //		} catch (SocketException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -53,14 +54,39 @@ public class ServeurUDP implements Runnable {
 			byte[] buf = new byte[256];
 			DatagramPacket packet  = new DatagramPacket(buf, buf.length);
 			try {
+				System.out.println("On attend le packet...") ;
 				socket.receive(packet);
 				InetAddress address = packet.getAddress() ;
-				System.out.println(address) ;
-				int port = packet.getPort() ;
+				System.out.println("NOUVELLE ITERATION") ;
+				int port = 4446 ;
 				String receive = new String(packet.getData(),0, packet.getLength()) ;
+				
+//				Annuaire.addAnuaire(new User(receive)) ;
+//				String monpseudo = new String(u.getPseudo().getBytes(), 0, 7) ;
+				byte[] buf1 = u.getPseudo().getBytes() ;
+				System.out.println("DDDDDDDDDD      "+ buf1.length ) ;
+				DatagramPacket packet1 = new DatagramPacket(buf1, buf1.length, address, port) ;
+				packet.setLength(7);
+				System.out.println(receive) ;
+				User add = Annuaire.getInstance().getAnnuaire().get(address.toString()) ;
+				if (add==null ) {
+					if (receive.equals(u.getPseudo())) {
+						
+					} else {
+						socket.send(packet1);
+					}
+				}
+				else {
+					if (receive.equals(u.getPseudo()) || receive.equals(add.getPseudo())) {
+						
+					} else {
+						socket.send(packet1);
+					}
+				}
+				
 				if (Annuaire.getInstance().getAnnuaire().get(address.toString())==null) {
 					Annuaire.getInstance().addAnuaire(address.toString(), new User(receive)) ;
-					System.out.println("un nouveau") ;
+					System.out.println("ON RECOIT CA : " + receive) ;
 				} else {
 					System.out.println(receive) ;
 					if(receive.equals("deconnexion")) {
@@ -76,11 +102,6 @@ public class ServeurUDP implements Runnable {
 						System.out.println("changement de pseudo") ;
 					}
 				}
-//				Annuaire.addAnuaire(new User(receive)) ;
-				buf = u.getPseudo().getBytes() ;
-				packet = new DatagramPacket(buf, buf.length, address, port) ;
-				socket.send(packet);
-				
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
