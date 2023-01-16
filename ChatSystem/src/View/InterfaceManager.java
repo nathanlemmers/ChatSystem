@@ -44,6 +44,8 @@ public class InterfaceManager extends JFrame {
 	private JPanel mess ;
 	private static String me ;
 	
+	private JPanel contact ;
+	
 	public InterfaceManager(String pseudo, String mdp) {
 		
 		this.me = pseudo ;
@@ -75,7 +77,7 @@ public class InterfaceManager extends JFrame {
 		
 		// Au dessus c'est l'entête, là on rentre dans le corps
 		
-		JPanel contact = new JPanel();
+		contact = new JPanel();
 		contact.setLayout(new BoxLayout(contact, BoxLayout.LINE_AXIS));
 		contact.setOpaque(false);
 		contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -178,21 +180,19 @@ public class InterfaceManager extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if (contact!= null) {
-//					finalPanel.remove(contact) ;
-//				}
-				JPanel contact = new JPanel();
+				
+				contact.removeAll() ;
 				contact.setLayout(new BoxLayout(contact, BoxLayout.LINE_AXIS));
 				contact.setOpaque(false);
 				contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				nbrContact = Annuaire.getInstance().size() ;
 				
 				for (int i=0; i<nbrContact ; i++) {
 					System.out.println(Annuaire.getInstance().getListUser(i)) ;
 					cont =  new JButton(Annuaire.getInstance().getListUser(i)) ;
 					contact.add(cont) ;
-					System.out.println("On passe par là") ;
+					System.out.println("BBB" +nbrContact) ;
 				}
-//				finalPanel.add(contact) ;
 				if (mess!= null ) {
 					finalPanel.remove(mess);
 					if (contenu!= null) {
