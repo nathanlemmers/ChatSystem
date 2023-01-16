@@ -20,6 +20,7 @@ public class Annuaire {
 		if (u==null) {
 		annuaire.put(adressIP, u1) ;
 		liste.add(u1.getPseudo()) ;
+		System.out.println("On ajoute dans l'annuaire") ;
 		return 0 ;
 		} else {
 			return -1 ;
@@ -43,6 +44,7 @@ public class Annuaire {
 		liste.remove(annuaire.get(address.toString()).getPseudo() ) ;
 		annuaire.replace(address.toString(), u) ;
 		liste.add(u.getPseudo()) ;
+		System.out.println("On modifie l'annuaire") ;
 	}
 	
 	public User getUser(String address) {

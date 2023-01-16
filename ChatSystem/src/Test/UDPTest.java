@@ -3,6 +3,7 @@ package Test;
 import Controller.ClientUDP;
 import Controller.ServeurUDP;
 import Controller.ThreadManager;
+import Model.Annuaire;
 import Model.User;
 
 public class UDPTest {
@@ -22,8 +23,9 @@ public class UDPTest {
 	}
 	
 	public static void main (String args[]) {
-		ThreadManager.newConnexion(nouveau) ;
-		ThreadManager.deconnexion(nouveau);
+		ThreadManager.newConnexion(ancien) ;
+		System.out.println(Annuaire.getInstance().getAnnuaire()) ;
+		System.out.println(Annuaire.getInstance().getListe()) ;
 	}
 	
 	

@@ -178,7 +178,9 @@ public class InterfaceManager extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+//				if (contact!= null) {
+//					finalPanel.remove(contact) ;
+//				}
 				JPanel contact = new JPanel();
 				contact.setLayout(new BoxLayout(contact, BoxLayout.LINE_AXIS));
 				contact.setOpaque(false);
@@ -190,7 +192,7 @@ public class InterfaceManager extends JFrame {
 					contact.add(cont) ;
 					System.out.println("On passe par là") ;
 				}
-				
+//				finalPanel.add(contact) ;
 				if (mess!= null ) {
 					finalPanel.remove(mess);
 					if (contenu!= null) {
@@ -212,6 +214,8 @@ public class InterfaceManager extends JFrame {
 				finalPanel.add(mess) ;
 				finalPanel.add(envoi) ;
 				showFrame();
+				System.out.println(Annuaire.getInstance().getListe()) ;
+				System.out.println(Annuaire.getInstance().getAnnuaire()) ;
 			}
 		});
 		
