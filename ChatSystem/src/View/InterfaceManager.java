@@ -42,9 +42,11 @@ public class InterfaceManager extends JFrame {
 	
 	private JTextField contenu ;
 	private JPanel mess ;
+	private static String me ;
 	
 	public InterfaceManager(String pseudo, String mdp) {
 		
+		this.me = pseudo ;
 		this.setTitle("Clavardage");
 		this.setSize(600, 600);
 		this.setLocationRelativeTo(null);
@@ -183,6 +185,7 @@ public class InterfaceManager extends JFrame {
 				contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 				
 				for (int i=0; i<nbrContact ; i++) {
+					System.out.println(Annuaire.getInstance().getListUser(i)) ;
 					cont =  new JButton(Annuaire.getInstance().getListUser(i)) ;
 					contact.add(cont) ;
 					System.out.println("On passe par là") ;
@@ -226,7 +229,7 @@ public class InterfaceManager extends JFrame {
 				else {
 					net.sendMessage(contact_du_moment, mess) ;
 					System.out.println("CCCCCC") ;
-					System.out.println(DatabaseManager.getMessage(contact_du_moment, new User("me"))) ;
+					System.out.println(DatabaseManager.getMessage(contact_du_moment, new User(pseudo))) ;
 				}		
 			}
 		});
@@ -237,7 +240,9 @@ public class InterfaceManager extends JFrame {
 		this.setVisible(true);
 	}
 	
-	
+	public static String getMe() {
+		return me ;
+	}
 	
 	
 	public static void main(String[] args) {	

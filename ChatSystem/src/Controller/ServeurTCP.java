@@ -11,6 +11,7 @@ import Model.Annuaire;
 import Model.Conversation;
 import Model.Message;
 import Model.User;
+import View.InterfaceManager;
 
 public class ServeurTCP implements Runnable {
 	
@@ -58,7 +59,7 @@ public class ServeurTCP implements Runnable {
                 System.out.println(u) ;
 //                Conversation.getInstance().addMessage(envoyer, envoyer.toString()+ " : " + greeting) ;
                 System.out.println("Archivage dans serveur") ;
-                DatabaseManager.ArchivageMessage(new Message(envoyer, new User("me"), greeting)) ;
+                DatabaseManager.ArchivageMessage(new Message(envoyer, new User(InterfaceManager.getMe()), greeting)) ;
 				System.out.println(DatabaseManager.getMessage(envoyer, new User("me"))) ;
                 stop() ;
 //                Conversation.getInstance().printConversation() ;

@@ -189,18 +189,23 @@ public abstract class DatabaseManager {
 	public static int ArchivageMessage(Message message) {
 		Statement stat ;
 		int result = -1 ;
-		String query = "INSERT INTO message VALUES ('" + message.getEmetteur() + "', '" + message.getReceveur() + "', '"+ message.getDate() + "', '" + message.getReceveur().getPseudo() + " : " + message.getContenu() + "')" ;
-		try {
-			stat = con.createStatement() ;
-			stat.executeUpdate(query) ;
-			result = 1 ;
-			stat.close() ;
-			System.out.println("Message Archivé") ;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (message.getEmetteur().toString().equals(message.getReceveur().toString())) {
 		}
-		System.out.println(run) ;
+		else {
+			System.out.println("Emmeteur : " + message.getEmetteur() + " receveur = " + message.getReceveur()) ;
+			String query = "INSERT INTO message VALUES ('" + message.getEmetteur() + "', '" + message.getReceveur() + "', '"+ message.getDate() + "', '" + message.getReceveur().getPseudo() + " : " + message.getContenu() + "')" ;
+			try {
+				stat = con.createStatement() ;
+				stat.executeUpdate(query) ;
+				result = 1 ;
+				stat.close() ;
+				System.out.println("Message Archivé") ;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(run) ;
+		}
 		return result ;
 	}
 	
