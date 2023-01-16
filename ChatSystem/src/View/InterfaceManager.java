@@ -109,6 +109,7 @@ public class InterfaceManager extends JFrame {
 		finalPanel.add(Box.createVerticalStrut(10)) ;
  		finalPanel.add(contact) ;
  		finalPanel.add(Box.createVerticalStrut(10)) ;
+ 		finalPanel.add(Box.createVerticalGlue()) ;
  		finalPanel.add(envoi) ;
  		finalPanel.add(Box.createVerticalStrut(10)) ;
 // 		finalPanel.add(mess) ;

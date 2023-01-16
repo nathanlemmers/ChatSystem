@@ -28,7 +28,7 @@ public abstract class DatabaseManager {
 			statement.executeUpdate(req) ;
 			statement.close();
 			String query = "CREATE TABLE IF NOT EXISTS message" +
-							"(user1 VARCHAR(255), user2 VARCHAR(255), date TIMESTAMP, contenu VARCHAR(255), PRIMARY KEY ( user1, user2, date ))" ;
+							"(user1 VARCHAR(255), user2 VARCHAR(255), date TIMESTAMP, contenu VARCHAR(255), PRIMARY KEY ( date, user1, user2 ))" ;
 			statement=con.createStatement() ;
 			statement.executeUpdate(query) ;
 			statement.close();
@@ -154,26 +154,26 @@ public abstract class DatabaseManager {
 		ArrayList<String> list = new ArrayList<String>() ;
 		Statement stat ;
 		try {
-			String req = "SELECT user2, contenu FROM message WHERE user1= '" + u1 + "'" ;
+			String req = "SELECT user1, user2, contenu FROM message WHERE ((user1= '" + u1 + "')OR (user2= '" + u1 + "')) AND ((user2= '"+ u2 + "') OR (user1= '"+ u2 +"'))" ;
 			stat=con.createStatement() ;
 			rs = stat.executeQuery(req) ;
 			while (rs.next()==true) {
 				User u3 = new User(rs.getString("user2")) ;
-				if (u3.toString().equals(u2.toString())) {
+//				if (u3.toString().equals(u2.toString())) {
 					list.add(rs.getString("contenu")) ;
-				}
+//				}
 			}
 			stat.close() ;
-			req = "SELECT user1, contenu FROM message WHERE user2= '" + u1 + "'" ;
-			stat=con.createStatement() ;
-			rs = stat.executeQuery(req) ;
-			while (rs.next()==true) {
-				User u3 = new User(rs.getString("user1")) ;
-				if (u3.toString().equals(u2.toString())) {
-					list.add(rs.getString("contenu")) ;
-				}
-			}
-			stat.close() ;
+//			req = "SELECT user1, contenu FROM message WHERE user2= '" + u1 + "'" ;
+//			stat=con.createStatement() ;
+//			rs = stat.executeQuery(req) ;
+//			while (rs.next()==true) {
+//				User u3 = new User(rs.getString("user1")) ;
+//				if (u3.toString().equals(u2.toString())) {
+//					list.add(rs.getString("contenu")) ;
+//				}
+//			}
+//			stat.close() ;
 		} catch (SQLException e) {
 			
 			// TODO Auto-generated catch block

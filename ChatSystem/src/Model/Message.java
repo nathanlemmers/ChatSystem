@@ -27,6 +27,10 @@ public class Message {
 	public Timestamp getDate() {
 		return date ;
 	}
+	 public String getDateString() {
+		 return String.valueOf(date.getHours())+ " : " + String.valueOf(date.getMinutes()) + " : " + String.valueOf(date.getSeconds())  ;
+	 }
+	
 	
 	public String getContenu() {
 		return contenu ;
