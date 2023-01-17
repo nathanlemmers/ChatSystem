@@ -119,6 +119,12 @@ public class InterfaceConnexion extends JFrame {
 				else if (eq == 1) {
 					// connexion autoris�e, mdp correct
 					new Thread(new NetworkManager()).start();
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					new InterfaceManager(log, mdp).showFrame() ;
 					
 					dispose() ;

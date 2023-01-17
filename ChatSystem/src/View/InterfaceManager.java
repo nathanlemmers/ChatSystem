@@ -2,6 +2,8 @@ package View;
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import Controller.DatabaseManager;
@@ -41,12 +44,15 @@ public class InterfaceManager extends JFrame {
 	
 	private JTextField contenu ;
 	private JPanel mess ;
+	private JScrollPane scroll = new JScrollPane();
 	private static String me ;
 	
 	private JPanel contact ;
 	
 	public InterfaceManager(String pseudo, String mdp) {
 		
+//		Image background = Toolkit.getDefaultToolkit().createImage(s"./Image/Background.png");
+//		ImagePanel img = new ImagePanel( new ImageIcon ("./Image/2926475d12521038.png").getImage()) ;
 		this.me = pseudo ;
 		this.setTitle("Clavardage");
 		this.setSize(600, 600);
@@ -91,6 +97,10 @@ public class InterfaceManager extends JFrame {
 		mess = new JPanel() ;
 		mess.setOpaque(false);
 		mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
+		scroll = new JScrollPane(mess) ;
+		scroll.setOpaque(false);
+		scroll.getViewport().setOpaque(false);
+		scroll.setMaximumSize(newPseudo.getPreferredSize());
 		
 		JPanel envoi = new JPanel() ;
 		envoi.setLayout(new BoxLayout(envoi, BoxLayout.LINE_AXIS));
@@ -118,7 +128,7 @@ public class InterfaceManager extends JFrame {
  		finalPanel.add(contact) ;
  		finalPanel.add(Box.createVerticalStrut(10)) ;
  		finalPanel.add(Box.createVerticalGlue()) ;
- 		finalPanel.add(mess) ;
+ 		finalPanel.add(scroll) ;
  		finalPanel.add(envoi) ;
  		finalPanel.add(Box.createVerticalStrut(15)) ;
 
