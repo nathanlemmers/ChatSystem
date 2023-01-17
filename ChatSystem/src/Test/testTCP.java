@@ -2,7 +2,6 @@ package Test;
 
 import Controller.NetworkManager;
 import Model.Annuaire;
-import Model.Conversation;
 import Model.User;
 
 public class testTCP {

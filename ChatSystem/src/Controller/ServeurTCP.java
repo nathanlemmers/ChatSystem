@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import Model.Annuaire;
-import Model.Conversation;
 import Model.Message;
 import Model.User;
 import View.InterfaceManager;

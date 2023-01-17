@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.util.HashMap;
 
 import Model.Annuaire;
-import Model.Conversation;
 import Model.Message;
 import Model.User;
 import View.InterfaceManager;
@@ -123,9 +122,6 @@ public class NetworkManager  implements Runnable {
     	User u = new User("me") ;
     	Annuaire.getInstance().addAnuaire("10.1.5.78", u) ;
 		net.run() ;
-		Conversation.getInstance().printConversation() ;
 
-    	
-    	
     }
 }

@@ -10,7 +10,6 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 import Model.Annuaire;
-import Model.Conversation;
 import Model.User;
 
 public class ClientTCP {
@@ -62,7 +61,13 @@ public class ClientTCP {
 	    	System.out.println("Port d'envoi : " + p + " IP d'envoi : " + ip) ; 
 	        String resp = null;
 			try {
-				JOptionPane.showMessageDialog(null, "Attente", "attente", JOptionPane.INFORMATION_MESSAGE, null);
+//				JOptionPane.showMessageDialog(null, "Confirmez le message", "Confirmez le message", JOptionPane.INFORMATION_MESSAGE, null);
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				clientSocket = new Socket(ip, p);
 				out = new PrintWriter(clientSocket.getOutputStream(), true);
 		        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

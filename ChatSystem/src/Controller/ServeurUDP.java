@@ -96,6 +96,7 @@ public class ServeurUDP implements Runnable {
 						} else {
 							Annuaire.getInstance().delAnnuaire(address, Annuaire.getInstance().getUser(address.toString())) ;
 							System.out.println("deconnexion") ;
+							System.out.println(Annuaire.getInstance().getAnnuaire()) ;
 						}
 					} else {
 						Annuaire.getInstance().modifyAnnuaire(address, new User(receive));

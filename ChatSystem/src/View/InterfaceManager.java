@@ -20,7 +20,6 @@ import Controller.NetworkManager;
 import Controller.ThreadManager;
 import Controller.Connexion;
 import Model.Annuaire;
-import Model.Conversation;
 import Model.User;
 
 public class InterfaceManager extends JFrame {
@@ -98,7 +97,7 @@ public class InterfaceManager extends JFrame {
 		envoi.setOpaque(false);
 		
 		this.send = new JButton("Envoyer") ;
-		this.message = new JTextField(50) ;
+		this.message = new JTextField(100) ;
 		message.setMaximumSize(newPseudo.getPreferredSize());
 		this.refresh = new JButton ("Refresh") ;
 		envoi.add(message) ;
@@ -121,6 +120,7 @@ public class InterfaceManager extends JFrame {
  		finalPanel.add(Box.createVerticalGlue()) ;
  		finalPanel.add(mess) ;
  		finalPanel.add(envoi) ;
+ 		finalPanel.add(Box.createVerticalStrut(15)) ;
 
 // 		finalPanel.add(mess) ;
 		

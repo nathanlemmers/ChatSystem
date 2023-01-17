@@ -29,10 +29,12 @@ public class Annuaire {
 	
 	//Renvoie 0 si on a supprimé, -1 si il n'existe pas dans la liste.
 	public int delAnnuaire(InetAddress address, User u1) {
-		User u = annuaire.get(address) ;
+		User u = annuaire.get(address.toString()) ;
+		System.out.println(u.getPseudo()) ;
 		if (u!=null) {
-			annuaire.remove(address) ;
-			liste.remove(u1.getPseudo()) ;
+			annuaire.remove(address.toString()) ;
+			liste.remove(u.getPseudo()) ;
+			System.out.println(annuaire) ;
 			return 0 ;
 		}
 		else {
