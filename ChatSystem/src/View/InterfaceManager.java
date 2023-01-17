@@ -130,7 +130,7 @@ public class InterfaceManager extends JFrame {
 		deconnexion.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent event) {
-				Connexion.Deconnexion(pseudo, mdp);
+				Connexion.Deconnexion(me, mdp);
 				new InterfaceConnexion().showFrame();
 				dispose() ;
 			}
@@ -142,7 +142,8 @@ public class InterfaceManager extends JFrame {
 				if (newpseudo==null) {
 					JOptionPane.showMessageDialog(null, "Vous devez écrire un nouveau pseudo", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} else {
-					int test = Connexion.ChangerPseudo(pseudo, mdp, newpseudo) ;
+					int test = Connexion.ChangerPseudo(me, mdp, newpseudo) ;
+					me = newpseudo ;
 					System.out.println(test) ;
 				}
 				
@@ -231,7 +232,7 @@ public class InterfaceManager extends JFrame {
 				}
 				mess.setOpaque(false);
 				mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
-				list = DatabaseManager.getMessage(contact_du_moment, new User(pseudo)) ;
+				list = DatabaseManager.getMessage(contact_du_moment, new User(me)) ;
 				for (int i= 0; i<list.size() ; i++) {
 					contenu = new JTextField(list.get(i)) ;
 					contenu.setMaximumSize(newPseudo.getPreferredSize());
@@ -242,7 +243,7 @@ public class InterfaceManager extends JFrame {
 				showFrame();
 				System.out.println(Annuaire.getInstance().getListe()) ;
 				System.out.println(Annuaire.getInstance().getAnnuaire()) ;
-				System.out.println(DatabaseManager.getMessage(new User(pseudo), contact_du_moment)) ;
+				System.out.println(DatabaseManager.getMessage(new User(me), contact_du_moment)) ;
 			}
 		});
 		
@@ -260,7 +261,7 @@ public class InterfaceManager extends JFrame {
 				else {
 					net.sendMessage(contact_du_moment, mess) ;
 					System.out.println("CCCCCC") ;
-					System.out.println(DatabaseManager.getMessage(contact_du_moment, new User(pseudo))) ;
+					System.out.println(DatabaseManager.getMessage(contact_du_moment, new User(me))) ;
 				}		
 			}
 		});

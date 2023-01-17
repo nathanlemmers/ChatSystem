@@ -1,5 +1,7 @@
 package Controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import Model.Annuaire;
 import Model.Message;
 import Model.User;
 
@@ -214,12 +217,23 @@ public abstract class DatabaseManager {
 				statement.executeUpdate(query) ;
 				statement.close() ;
 				System.out.println("Pseudo modifié avec succès.") ;
-//				query = "UPDATE message SET u1 = '"+NewPseudo+"' WHERE u1 = '" + AncienPseudo +"'" ;
-//				statement = con.createStatement() ;
-//				statement.executeUpdate(query) ;
-//				statement.close() ;
+				query = "UPDATE message SET user1 = '"+NewPseudo+"' WHERE user1 = '" + AncienPseudo +"'" ;
+				statement = con.createStatement() ;
+				statement.executeUpdate(query) ;
+				statement.close() ;
+				query = "UPDATE message SET user2 = '"+NewPseudo+"' WHERE user2 = '" + AncienPseudo +"'" ;
+				statement = con.createStatement() ;
+				statement.executeUpdate(query) ;
+				statement.close() ;
+//				Annuaire.getInstance().annuaire.put(Annuaire.getInstance().getIP(new User(AncienPseudo)), new User (NewPseudo)) ;
+				String address = Annuaire.getInstance().getIP(new User(AncienPseudo)).substring(1) ;
+				Annuaire.getInstance().modifyAnnuaire(InetAddress.getByName(address), new User(NewPseudo));
 				return 1 ;
 			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return 0 ;
+			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return 0 ;
