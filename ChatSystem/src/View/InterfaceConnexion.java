@@ -107,14 +107,14 @@ public class InterfaceConnexion extends JFrame {
 
 				} catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
 					// si erreur inconnue lors de l'execution
-					JOptionPane.showMessageDialog(null, "Catch erreur inconnue", "Connexion", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Catch erreur inconnue.", "Connexion", JOptionPane.ERROR_MESSAGE);
 				}
 				// Soit le mot de passe ou l'id est incorrect
 				// Soit le compte n'exitse pas dans ce cas, on le cr�e
 
 				if (eq == 0) {
 					// si verifyLogin renvoie 0 c'est une erreur de correspondance
-					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Connexion", JOptionPane.ERROR_MESSAGE);
 				}
 				else if (eq == 1) {
 					// connexion autoris�e, mdp correct
@@ -129,9 +129,9 @@ public class InterfaceConnexion extends JFrame {
 					
 					dispose() ;
 				} else if (eq == 2) {
-					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect", "Connexion", JOptionPane.INFORMATION_MESSAGE);;
+					JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Connexion", JOptionPane.INFORMATION_MESSAGE);;
 				} else if (eq == -1) {
-					JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Erreur serveur.", "Connexion", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}) ;
@@ -142,16 +142,20 @@ public class InterfaceConnexion extends JFrame {
 				String log = logIn.getText();
 				String mdp = String.valueOf(pwF.getPassword());
 				pwF.addActionListener(this);
-				
-				int eq= DatabaseManager.NewUser(log, mdp) ;
-				if (eq == 1) {
-					JOptionPane.showMessageDialog(null, "Nouvel utilisateur créé", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+				if (log.equals("") || mdp.equals("")) {
+					JOptionPane.showMessageDialog(null, "Vous devez choisir un mot de passe et un pseudo.", "Connexion", JOptionPane.INFORMATION_MESSAGE);
 				}
-				else if (eq==0) {
-					JOptionPane.showMessageDialog(null, "Pseudo déjà utilisé", "Connexion", JOptionPane.ERROR_MESSAGE);
-				}
-				else if(eq==-1) {
-					JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.ERROR_MESSAGE);
+				else {
+					int eq= DatabaseManager.NewUser(log, mdp) ;
+					if (eq == 1) {
+						JOptionPane.showMessageDialog(null, "Nouvel utilisateur créé.", "Connexion", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if (eq==0) {
+						JOptionPane.showMessageDialog(null, "Pseudo déjà utilisé.", "Connexion", JOptionPane.ERROR_MESSAGE);
+					}
+					else if(eq==-1) {
+						JOptionPane.showMessageDialog(null, "Erreur serveur", "Connexion", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		}) ;

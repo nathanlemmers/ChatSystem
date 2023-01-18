@@ -76,7 +76,7 @@ public class InterfaceManager extends JFrame {
 		sousPanel0.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		JPanel finalPanel = new JPanel();
-		finalPanel.setBackground(Color.decode("#afeeee"));
+		finalPanel.setBackground(Color.decode("#E96E99"));
 		finalPanel.setLayout(new BoxLayout(finalPanel, BoxLayout.PAGE_AXIS));
 		
 		
@@ -84,8 +84,10 @@ public class InterfaceManager extends JFrame {
 		
 		contact = new JPanel();
 		contact.setLayout(new BoxLayout(contact, BoxLayout.LINE_AXIS));
-		contact.setOpaque(false);
-		contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		contact.setOpaque(true);
+		contact.setBorder(BorderFactory.createLineBorder(Color.black));
+		contact.setBackground(Color.decode("#F2FA7C"));
+		contact.add(Box.createHorizontalGlue()) ;
 		
 		for (int i=0; i<nbrContact ; i++) {
 			String nom = new String (Annuaire.getInstance().getListUser(i)) ;
@@ -93,6 +95,7 @@ public class InterfaceManager extends JFrame {
 			contact.add(cont) ;
 			System.out.println("On passe par là") ;
 		}
+		contact.add(Box.createHorizontalGlue()) ;
 		
 		mess = new JPanel() ;
 		mess.setOpaque(false);
@@ -150,13 +153,75 @@ public class InterfaceManager extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				String newpseudo = newPseudo.getText() ;
 				if (newpseudo==null) {
-					JOptionPane.showMessageDialog(null, "Vous devez écrire un nouveau pseudo", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Vous devez écrire un nouveau pseudo.", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} else {
 					int test = Connexion.ChangerPseudo(me, mdp, newpseudo) ;
 					me = newpseudo ;
 					System.out.println(test) ;
 				}
+				contact.removeAll() ;
+				contact.setLayout(new BoxLayout(contact, BoxLayout.LINE_AXIS));
+				contact.setOpaque(true);
+				contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				contact.setBackground(Color.decode("#F2FA7C"));
+				contact.add(Box.createHorizontalGlue()) ;
+				nbrContact = Annuaire.getInstance().size() ;
 				
+				for (int i=0; i<nbrContact ; i++) {
+					System.out.println(Annuaire.getInstance().getListUser(i)) ;
+					String nom = new String (Annuaire.getInstance().getListUser(i)) ;
+					cont =  new JButton(nom) ;
+					cont.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							System.out.println("AAAAAAAAAA") ;
+							if (mess==null) {
+								mess = new JPanel() ;
+							}
+							else {
+								mess.removeAll() ;
+							}
+							mess.setOpaque(false);
+							mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
+							contact_du_moment = new User(cont.getText()) ;
+							System.out.println(Annuaire.getInstance().getIP(contact_du_moment)) ;
+							System.out.println(Annuaire.getInstance().annuaire);
+							
+							list = DatabaseManager.getMessage(contact_du_moment, new User("me")) ;
+							
+							for (int i= 0; i<list.size() ; i++) {
+								contenu = new JTextField(list.get(i)) ;
+								contenu.setMaximumSize(newPseudo.getPreferredSize());
+								mess.add(contenu) ;
+								mess.add(Box.createVerticalStrut(5)) ;
+								System.out.println(list.get(i)) ;
+							}
+							showFrame();
+						}
+					});
+					contact.add(cont) ;
+					contact.add(Box.createHorizontalGlue()) ;
+					System.out.println("BBB" +nbrContact) ;
+				}
+				if (mess!= null ) {
+					mess.removeAll() ;
+				} else {
+					mess = new JPanel();
+				}
+				mess.setOpaque(false);
+				mess.setLayout(new BoxLayout(mess, BoxLayout.PAGE_AXIS));
+				list = DatabaseManager.getMessage(contact_du_moment, new User(me)) ;
+				for (int i= 0; i<list.size() ; i++) {
+					contenu = new JTextField(list.get(i)) ;
+					contenu.setMaximumSize(newPseudo.getPreferredSize());
+					mess.add(contenu) ;
+					mess.add(Box.createVerticalStrut(5)) ;
+					System.out.println(list.get(i)) ;
+				}
+				showFrame();
+				System.out.println(Annuaire.getInstance().getListe()) ;
+				System.out.println(Annuaire.getInstance().getAnnuaire()) ;
+				System.out.println(DatabaseManager.getMessage(new User(me), contact_du_moment)) ;
+				contact_du_moment = null ;
 			}
 		}) ;
 		
@@ -197,8 +262,10 @@ public class InterfaceManager extends JFrame {
 				
 				contact.removeAll() ;
 				contact.setLayout(new BoxLayout(contact, BoxLayout.LINE_AXIS));
-				contact.setOpaque(false);
+				contact.setOpaque(true);
 				contact.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				contact.setBackground(Color.decode("#F2FA7C"));
+				contact.add(Box.createHorizontalGlue()) ;
 				nbrContact = Annuaire.getInstance().size() ;
 				
 				for (int i=0; i<nbrContact ; i++) {
@@ -233,6 +300,7 @@ public class InterfaceManager extends JFrame {
 						}
 					});
 					contact.add(cont) ;
+					contact.add(Box.createHorizontalGlue()) ;
 					System.out.println("BBB" +nbrContact) ;
 				}
 				if (mess!= null ) {
@@ -263,10 +331,10 @@ public class InterfaceManager extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String mess = message.getText() ;
 				if (contact_du_moment==null) {
-					JOptionPane.showMessageDialog(null, "Vous devez choisir un contact", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Vous devez choisir un contact.", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}
 				else if (mess.equals("")) {
-					JOptionPane.showMessageDialog(null, "Vous n'avez pas écrit de message", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Vous n'avez pas écrit de message.", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
 					net.sendMessage(contact_du_moment, mess) ;
